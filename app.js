@@ -70,3 +70,5 @@ app.post('/updatePassword',profile.updatePassword);
 app.post('/profile',profile.profileDetails);
 app.post('/lab_Schedule',admin.lab_Schedule);
 app.delete('/ReserveLab',admin.ReserveLab);
+app.post('/studentsList',admin.studentsList);
+app.post('/LecturersList',admin.LecturersList);

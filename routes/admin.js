@@ -103,11 +103,38 @@ exports.ReserveLab =async function(request, response) {
   
   }
 
-
-  
-
+}
 
 
+//API for retrieving students
+exports.studentsList =async function(request, response) { 
+    
 
+  connection.query('select * from student', function(error, results, fields) {
+      if (results.length > 0)
+      { 
+          response.send(results);
+      }
+      else{
+        response.send('No students are registered to book the lab');	  
+      }
+  })
 
 }
+
+
+
+//API for retrieving lecturers
+exports.LecturersList =async function(request, response) { 
+
+  connection.query('select * from lecture', function(error, results, fields) {
+      if (results.length > 0)
+      { 
+          response.send(results);
+      }
+      else{
+        response.send('No lecturers are registered to book the lab');	  
+      }
+  })
+}
+
