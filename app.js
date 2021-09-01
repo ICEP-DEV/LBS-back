@@ -69,4 +69,4 @@ app.post('/Lec_registration',registration.Lec_register)
 app.post('/updatePassword',profile.updatePassword);
 app.post('/profile',profile.profileDetails);
 app.post('/lab_Schedule',admin.lab_Schedule);
-
+app.delete('/ReserveLab',admin.ReserveLab);

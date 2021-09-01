@@ -69,3 +69,45 @@ exports.lab_Schedule =async function(request, response) {
 
 
 }
+
+
+//this APi will reseve an available lab for other purpose
+
+
+exports.ReserveLab =async function(request, response) {
+
+  
+   
+  var labName = request.body.labName;
+  var slot = request.body.slot;
+  var capacity = request.body.capacity;
+  var avail = 0;
+  var date = request.body.date;
+  
+  
+  if(labName && slot && capacity && date ){
+  
+    connection.query('DELETE * FROM lab where Lab_Name =?  AND Lab_Slot =? AND Lab_Date =? ' , [labName,slot,date], function (error, results, fields) {
+      if (error) {
+
+        response.send('error running the query')
+
+      }else{
+      
+     
+       response.send('you have successfully reserved this lab '+ labName + ' on this date ' + date) 
+      
+      }
+    })
+  
+  
+  }
+
+
+  
+
+
+
+
+
+}
