@@ -72,3 +72,4 @@ app.post('/lab_Schedule',admin.lab_Schedule);
 app.delete('/ReserveLab',admin.ReserveLab);
 app.post('/studentsList',admin.studentsList);
 app.post('/LecturersList',admin.LecturersList);
+app.delete('/DeleteStudent',admin.DeleteStudent);

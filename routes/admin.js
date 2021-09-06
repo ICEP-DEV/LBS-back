@@ -138,3 +138,21 @@ exports.LecturersList =async function(request, response) {
   })
 }
 
+
+exports.DeleteStudent =async function(request, response) { 
+
+  var stuNumber = request.body.stuNumber;
+  console.log(stuNumber);
+
+  connection.query('DELETE FROM student WHERE stud_no = ?',[stuNumber], function(error, results, fields) {
+      if(error)
+      {
+        response.send('error running the query');
+      }
+      else{
+        response.send('The student is successfully deleted');
+      }
+
+  })
+
+}

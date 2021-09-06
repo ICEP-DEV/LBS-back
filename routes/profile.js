@@ -14,7 +14,7 @@ exports.updatePassword =async function(request, response)
     console.log(confirmPassword);
     
     
-    if ( password && newPassword && confirmPassword )
+    if (stuNumber && password && newPassword && confirmPassword )
     { 
         connection.query('SELECT password FROM student where stud_no = ? And password =?', [stuNumber,password], function(error, results, fields)
         {
