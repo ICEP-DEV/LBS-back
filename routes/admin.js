@@ -156,3 +156,60 @@ exports.DeleteStudent =async function(request, response) {
   })
 
 }
+
+exports.DeleteLecturer =async function(request, response) { 
+
+  var lecturerID = request.body.lecturerID;
+  console.log(lecturerID);
+
+  connection.query('DELETE FROM lecture WHERE lec_id = ?',[lecturerID], function(error, results, fields) {
+      if(error)
+      {
+        response.send('error running the query');
+      }
+      else{
+        response.send('The lecture is successfully deleted');
+      }
+
+  })
+
+}
+
+exports.bookings = async function(request , response)
+{
+
+var bookingID = request.body.bookingID;
+var StudentID = request.body.StudentID;
+
+console.log(StudentID);
+console.log(bookingID);
+
+
+  if(bookingID  && StudentID )
+  {
+    connection.query('SELECT Booking_ID FROM booking WHERE  Booking_ID = ? AND  Stud_ID = ?', [bookingID, StudentID],function(error, results, fields)
+        {
+          if(results.length > 0)
+          {
+            connection.query('DELETE FROM booking WHERE Booking_ID =? AND Stud_ID =?', [bookingID, StudentID],function(error, results, fields)
+            {
+              if(error)
+              {
+                response.send('error running the query');
+              }
+              else{
+                response.send('deleted sucessfully');
+              }
+            })
+          }
+          else{
+            response.send('The booking ID is incorrect');
+          }
+
+        })
+  }
+  else{
+    response.send('Please enter the values');
+  }
+}
+
