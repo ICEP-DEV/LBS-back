@@ -27,6 +27,13 @@ SET time_zone = "+00:00";
 -- Table structure for table `admin`
 --
 
+CREATE TABLE `notifications` (
+  `Notification_ID` int(10) NOT NULL,
+  `Notification` varchar(500) NOT NULL,
+  `Notification_Date` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
 CREATE TABLE `admin` (
   `Admin_ID` int(11) NOT NULL,
   `Admin_Name` varchar(255) NOT NULL,
