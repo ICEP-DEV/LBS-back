@@ -71,7 +71,7 @@ exports.lab_Schedule =async function(request, response) {
 }
 
 
-//this APi will reseve an available lab for other purpose
+//this APi will reserve an available lab for other purpose
 
 
 exports.ReserveLab =async function(request, response) {
@@ -177,39 +177,32 @@ exports.DeleteLecturer =async function(request, response) {
 
 exports.bookings = async function(request , response)
 {
-
-var bookingID = request.body.bookingID;
-var StudentID = request.body.StudentID;
-
-console.log(StudentID);
-console.log(bookingID);
-
-
-  if(bookingID  && StudentID )
+  connection.query('SELECT * FROM booking', function(error, results, fields)
   {
-    connection.query('SELECT Booking_ID FROM booking WHERE  Booking_ID = ? AND  Stud_ID = ?', [bookingID, StudentID],function(error, results, fields)
-        {
-          if(results.length > 0)
-          {
-            connection.query('DELETE FROM booking WHERE Booking_ID =? AND Stud_ID =?', [bookingID, StudentID],function(error, results, fields)
-            {
-              if(error)
-              {
-                response.send('error running the query');
-              }
-              else{
-                response.send('deleted sucessfully');
-              }
-            })
-          }
-          else{
-            response.send('The booking ID is incorrect');
-          }
-
-        })
-  }
-  else{
-    response.send('Please enter the values');
-  }
+    if(results.length > 0)
+    {
+      response.send(results);
+      
+    }
+    else{
+      response.send('No bookings available');
+    }
+  })
 }
 
+
+
+exports.bookings = async function(request , response)
+{
+  connection.query('SELECT * FROM booking', function(error, results, fields)
+  {
+    if(results.length > 0)
+    {
+      response.send(results);
+      
+    }
+    else{
+      response.send('No bookings available');
+    }
+  })
+}
