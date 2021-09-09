@@ -87,7 +87,7 @@ exports.ReserveLab =async function(request, response) {
   
   if(labName && slot && capacity && date ){
   
-    connection.query('DELETE * FROM lab where Lab_Name =?  AND Lab_Slot =? AND Lab_Date =? ' , [labName,slot,date], function (error, results, fields) {
+    connection.query('DELETE  FROM lab where Lab_Name =?  AND Lab_Slot =? AND Lab_Date =? ' , [labName,slot,date], function (error, results, fields) {
       if (error) {
 
         response.send('error running the query')

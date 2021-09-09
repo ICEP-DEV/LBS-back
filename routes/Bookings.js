@@ -21,7 +21,7 @@ exports.available =async function(request, response)
     connection.query('SELECT * FROM lab WHERE Lab_Date = ? ',[date], function(error, results, fields)  
       {
           if(results.length > 0){
-            if (currentTime == 9  ) //session for 8 should disapper at 9 (slot A)
+            if (currentTime >= 9  && currentTime < 10) //session starts at 8 the system should make sure that after 9 it has been removed (slot A)
             {
                 
            
@@ -55,7 +55,7 @@ exports.available =async function(request, response)
                     }
                })
             }
-          else if (currentTime == 10 )//session for 9 to 10 should disapper at 10 (slot B)
+        else  if (currentTime >= 10 && currentTime < 11 )//session starts at 9 the system should make sure that after 10 it has been removed (slot B)
             {
         
                 var slot = 'B';
@@ -84,13 +84,13 @@ exports.available =async function(request, response)
                      }
                 })
             }
-            else if(currentTime  == 23){ //time from 10pm to 10.05 should set everything to 0
+            else  if (currentTime >= 11 && currentTime < 12 )//session starts at 9 the system should make sure that after 10 it has been removed (slot B)
+            {
         
-        
-                
+                var slot = 'C';
         
                 //update availability since slot time is over
-                 connection.query('UPDATE lab SET Lab_availability =  0  WHERE  Lab_Date =?',[date],function(error, results, fields)  
+                 connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?',[slot,date], function(error, results, fields)  
                  {
                  
                      if (error) 
@@ -104,8 +104,7 @@ exports.available =async function(request, response)
                              {
                                 response.send(results);
                              }
-                             else
-                             {
+                             else{
                                 response.send('all labs are booked for the day');
                              }
          
@@ -113,9 +112,122 @@ exports.available =async function(request, response)
                         })
                      }
                 })
-            
-                   
+            }
+            else  if (currentTime >= 12 && currentTime < 13 )//session starts at 9 the system should make sure that after 10 it has been removed (slot B)
+            {
         
+                var slot = 'D';
+        
+                //update availability since slot time is over
+                 connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?',[slot,date], function(error, results, fields)  
+                 {
+                 
+                     if (error) 
+                     { 
+                         response.send('there are some error with query');
+                     }
+                     else{
+                           connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
+                    
+                             if (results.length > 0)
+                             {
+                                response.send(results);
+                             }
+                             else{
+                                response.send('all labs are booked for the day');
+                             }
+         
+         
+                        })
+                     }
+                })
+            }
+            else  if (currentTime >= 13 && currentTime < 14 )//session starts at 9 the system should make sure that after 10 it has been removed (slot B)
+            {
+        
+                var slot = 'E';
+        
+                //update availability since slot time is over
+                 connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?',[slot,date], function(error, results, fields)  
+                 {
+                 
+                     if (error) 
+                     { 
+                         response.send('there are some error with query');
+                     }
+                     else{
+                           connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
+                    
+                             if (results.length > 0)
+                             {
+                                response.send(results);
+                             }
+                             else{
+                                response.send('all labs are booked for the day');
+                             }
+         
+         
+                        })
+                     }
+                })
+            }
+            else  if (currentTime >= 14 && currentTime < 15 )//session starts at 9 the system should make sure that after 10 it has been removed (slot B)
+            {
+        
+                var slot = 'F';
+        
+                //update availability since slot time is over
+                 connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?',[slot,date], function(error, results, fields)  
+                 {
+                 
+                     if (error) 
+                     { 
+                         response.send('there are some error with query');
+                     }
+                     else{
+                           connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
+                    
+                             if (results.length > 0)
+                             {
+                                response.send(results);
+                             }
+                             else{
+                                response.send('all labs are booked for the day');
+                             }
+         
+         
+                        })
+                     }
+                })
+            }
+            else  if (currentTime >= 16 && currentTime < 17 )//session starts at 9 the system should make sure that after 10 it has been removed (slot B)
+            {
+        
+                var slot = 'G';
+        
+                //update availability since slot time is over
+                 connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?',[slot,date], function(error, results, fields)  
+                 {
+                 
+                     if (error) 
+                     { 
+                         response.send('there are some error with query');
+                     }
+                     else{
+                           connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
+                    
+                             if (results.length > 0)
+                             {
+                                response.send(results);
+                             }
+                             else{
+                                response.send('all labs are booked for the day');
+                             }
+         
+         
+                        })
+                     }
+                })
             }
             else
             {
@@ -164,7 +276,8 @@ exports.labBooking=async function(request, response)
     
     var stuNumber = request.body.stuNumber;
     var labAndSlot = request.body.labAndSlot;
-     
+    let dt = JSON.stringify(new Date)
+    let date = dt.substr(1,10)
     
     
     console.log(stuNumber)
@@ -179,8 +292,14 @@ exports.labBooking=async function(request, response)
 
        // response.send(labName + " "+slot )
         //response.send(text)
-   
-        connection.query('SELECT * FROM booking WHERE Lab_Slot =? AND Lab_Name =? AND Stud_ID =? ',[slot,labName,stuNumber], function (error, results, fields)
+       
+
+      
+        
+
+       
+
+        connection.query('SELECT * FROM booking WHERE Lab_Slot =? AND Lab_Name =? AND Stud_ID =? AND date =?',[slot,labName,stuNumber,date], function (error, results, fields)
         {
                 if(results.length > 0)
                 {
@@ -195,41 +314,62 @@ exports.labBooking=async function(request, response)
                         "Lab_Name":labName,
                         "Lab_Slot":slot,
                         "Stud_ID":request.body.stuNumber,          
-                      
+                        "date":date,
                
                     } ;
 
-                    connection.query('SELECT Lab_Slot from booking where Lab_Slot =? AND Stud_ID = ?',[slot,stuNumber], function (error, results, fields) {
+                    connection.query('SELECT Lab_Slot from booking where Lab_Slot =? AND Stud_ID = ? AND date =?',[slot,stuNumber,date], function (error, results, fields) {
                     
                     if(results.length == 0){
-                    connection.query('INSERT INTO booking SET ? ',[booking1], function (error, results, fields) {
-                      if (error) 
-                      {
-                       
-                        response.send('there are some error with query');
+
+
+                      connection.query('SELECT * FROM  booking  WHERE Num_Bookings > 3 AND Stud_ID =? AND date = ?',[stuNumber,date],function (error, results, fields){
+
+                        if(results.length > 0){
+                                        
+                          response.send('you can not make more than 4 bookings per day');
+                          
+                         }else{
                         
-                      }else
-                      {
-                      
-                        connection.query('UPDATE booking SET Stud_ID = ?,Num_Bookings = Num_Bookings +1 WHERE Stud_ID =?', [stuNumber,stuNumber],function (error, results, fields){
-            
-                          connection.query('UPDATE lab SET Lab_availability =  Lab_availability + 1  WHERE Lab_Slot =? AND Lab_Name =?',[slot,labName], function(error, results, fields){ //updates and makes a booking
-
+                          connection.query('INSERT INTO booking SET ? ',[booking1], function (error, results, fields) {
                             if (error) 
-                            { 
-                                response.send('there are some error with query');
-                            }
-                            else{
-                            response.send("you have successfully booked for a lab");
-                            }
-
-                          })// end of query for updation availability 
-                        })// end of query for booking
-                    
+                            {
+                             
+                              response.send('there are some error with query');
+                              
+                            }else
+                            {
+                            
+                              connection.query('UPDATE booking SET Stud_ID = ?,Num_Bookings = Num_Bookings + 1 WHERE Stud_ID =?', [stuNumber,stuNumber],function (error, results, fields){
                   
-                      }
+                                connection.query('UPDATE lab SET Lab_availability =  Lab_availability + 1  WHERE Lab_Slot =? AND Lab_Name =?',[slot,labName], function(error, results, fields){ //updates and makes a booking
+      
+                                  if (error) 
+                                  { 
+                                      response.send('there are some error with query');
+                                  }
+                                  else{
+
+                           
+                                        response.send("you have successfully booked for a lab");
+                                        
+                                  }
+      
+                                })// end of query for updation availability 
+                              })// end of query for booking
+                          
+                        
+                            }
+                          
+                          })//end of inserting
+
+                        }
+                      })//end of checking for number of bookings
+                      
+
+
+
                     
-                    })//end of inserting
                   }else{
                       
                     response.send('cant book for more than one lab at the same time');
@@ -240,8 +380,8 @@ exports.labBooking=async function(request, response)
                 
                     
                 }      
-           })
-       
+             })
+            
     } 
            
 
@@ -275,33 +415,45 @@ exports.status=async function(request, response) {
 exports.cancelBooking=async function(request, response) {
 
 
-  var id = request.body.id
+ 
   var labName = request.body.labName;
   var slot = request.body.slot;
   var stuNumber = request.body.stuNumber;
-
+  let dt = JSON.stringify(new Date)
+  let date = dt.substr(1,10)
    
   console.log(labName);
   console.log(slot);
   console.log(stuNumber)
-  console.log(id)
+  console.log(date)
 
 
 
 
 
-  connection.query('DELETE  FROM booking where Booking_ID=?  AND Lab_Name =? AND Lab_Slot =? AND Stud_ID' , [id,labName,slot,stuNumber], function (error, results, fields) {
+  connection.query('DELETE  FROM booking where date=?  AND Lab_Name =? AND Lab_Slot =? AND Stud_ID' , [date,labName,slot,stuNumber], function (error, results, fields) {
 	  if (error) {}else{
 	  
    
-    connection.query('UPDATE lab SET Lab_availability =  Lab_availability -1   WHERE Lab_Slot =? AND Lab_Name =?',[slot,labName], function(error, results, fields){ //updates and makes a booking
+    connection.query('UPDATE lab SET Lab_availability =  Lab_availability -1   WHERE Lab_Slot =? AND Lab_Name =? AND date =?',[slot,labName,date], function(error, results, fields){ //updates and makes a booking
 
       if (error) 
       { 
           response.send('there are some error with query');
       }
       else{
-      response.send('booking has been cancelled');
+        connection.query('UPDATE booking SET MAX(Num_Bookings) = MAX(Num_Bookings) -1 WHERE date=?  AND Lab_Name =? AND Lab_Slot =? AND Stud_ID' , [date,labName,slot,stuNumber], function (error, results, fields)
+            {
+            if(error)
+            {
+              response.send('problems with query');
+            }else
+            {
+              response.send('booking has been cancelled');
+            }
+
+        })
+      
       }
     
     })

@@ -120,7 +120,7 @@
         //fetch data
         var lec_id=request.body.stuNumber;
         var lec_name = request.body.name;
-        
+        var lec_surname = request.body.surname;
         var lec_email = request.body.email;
         var password = request.body.password;
         var confirm = request.body.confirm;
@@ -128,6 +128,7 @@
         
      
         console.log(lec_name);
+        console.log(lec_surname);
         console.log(lec_email);
         console.log(lec_id); 
         console.log(password);
@@ -138,7 +139,7 @@
         
     
        
-        if ( lec_id && lec_name && lec_email && password && confirm ) 
+        if ( lec_id && lec_name && lec_surname && lec_email && password && confirm ) 
         {
 
 
@@ -166,7 +167,7 @@
     
                                             "lec_id":request.body.stuNumber,
                                             "lec_name":request.body.name,
-                                                    
+                                             "lec_surname": request.body.surname,      
                                             "lec_email":request.body.email,
                                             "password":request.body.password, 
                                             "confirm":request.body.confirm,

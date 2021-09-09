@@ -35,11 +35,13 @@ var admin = require('./routes/admin');
 
 app.get('/j',function(request,response){
 
-     let dt = JSON.stringify(new Date)
-     let date = dt.substr(1,10)
-     let time =dt.substr(12,2);
+  let dt = JSON.stringify(new Date)
+  let date = dt.substr(1,10)
+  let time = dt.substr(12,2);
+
+  let currentTime = time;
     
-    response.send(dt)
+    response.send(currentTime)
     
     
 })
