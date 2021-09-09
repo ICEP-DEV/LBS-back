@@ -75,3 +75,5 @@ app.delete('/ReserveLab',admin.ReserveLab);
 app.post('/studentsList',admin.studentsList);
 app.post('/LecturersList',admin.LecturersList);
 app.delete('/DeleteStudent',admin.DeleteStudent);
+app.delete('/DeleteLecturer',admin.DeleteLecturer);
+app.delete('/bookings',admin.bookings);
