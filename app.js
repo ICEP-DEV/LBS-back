@@ -72,4 +72,6 @@ app.post('/profile',profile.profileDetails);
 app.post('/lab_Schedule',admin.lab_Schedule);
 app.post('/notification',admin.notification);  
 
-//app.get('/get_notification',admin.get_notification); 
+app.get('/get_notification',admin.get_notification); 
+
+//app.delete('/delete_notification',admin.get_notification); 

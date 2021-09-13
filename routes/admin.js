@@ -279,3 +279,29 @@ else{
 
 //API for getting admin notifications
 
+
+
+exports.get_notification = async function(request, response){
+
+  
+  var notif_Date = request.body.Notification_Date;
+  
+  if(notif_Date ){
+  
+    connection.query('SELECT * FROM notifications WHERE Notification_Date  =?' , [notif_Date], function (error, results, fields) {
+      if (results.length > 0) {
+
+        response.send(results);
+
+      }else{
+      
+     
+       response.send('No results found for this date: ' + notif_Date); 
+      
+      }
+    })
+  
+  
+  }
+
+}
