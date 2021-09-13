@@ -66,17 +66,17 @@
                                     connection.query('INSERT INTO student SET ?',[student1], function (error, results, fields) {
                                       if (error) {
                                        
-                                        response.send('there are some error with query');
+                                        response.send('System currently facing a problem... Please contact the admin');
                                         
                                       }else{
                                         
-                                        response.send('user registered sucessfully');
+                                        response.send('user registered successfully');
                                         
                                       }
                                     });//end of inserting data
                     }else{
     
-                        response.send('password dont match');
+                        response.send('password does not match');
         
                     }
                   
@@ -91,7 +91,7 @@
     }
     else{
         
-        response.send('Not a registered tut student');	
+        response.send('Not a registered student');	
 
     }
 
@@ -176,17 +176,17 @@
                                         connection.query('INSERT INTO lecture SET ?',[new_lecture], function (error, results, fields) {
                                           if (error) {
                                            
-                                            response.send('there are some error with query');
+                                            response.send('System currently facing a problem... Please contact the admin');
                                             
                                           }else{
                                             
-                                            response.send('user registered sucessfully');
+                                            response.send('user registered successfully');
                                             
                                           }
                                         });//end of inserting data
                         }else{
         
-                            response.send('password dont match');
+                            response.send('password does not match');
             
                         }
                       
@@ -201,7 +201,7 @@
         }
         else{
             
-            response.send('Not a registered tut Employeer');	
+            response.send('Not a registered employer');	
     
         }
     

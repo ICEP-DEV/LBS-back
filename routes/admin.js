@@ -40,7 +40,7 @@ exports.lab_Schedule =async function(request, response) {
             connection.query('INSERT INTO lab SET ?',[lab_records], function (error, results, fields) {
               if (error) {
                
-                response.send('there are some error with query');
+                response.send('System currently facing a problem... Please contact the admin');
                 
               }else{
                 
@@ -90,7 +90,7 @@ exports.ReserveLab =async function(request, response) {
     connection.query('DELETE  FROM lab where Lab_Name =?  AND Lab_Slot =? AND Lab_Date =? ' , [labName,slot,date], function (error, results, fields) {
       if (error) {
 
-        response.send('error running the query')
+        response.send('System currently facing a problem... Please contact the admin')
 
       }else{
       
@@ -147,7 +147,7 @@ exports.DeleteStudent =async function(request, response) {
   connection.query('DELETE FROM student WHERE stud_no = ?',[stuNumber], function(error, results, fields) {
       if(error)
       {
-        response.send('error running the query');
+        response.send('System currently facing a problem... Please contact the admin');
       }
       else{
         response.send('The student is successfully deleted');
@@ -165,10 +165,10 @@ exports.DeleteLecturer =async function(request, response) {
   connection.query('DELETE FROM lecture WHERE lec_id = ?',[lecturerID], function(error, results, fields) {
       if(error)
       {
-        response.send('error running the query');
+        response.send('System currently facing a problem... Please contact the admin');
       }
       else{
-        response.send('The lecture is successfully deleted');
+        response.send('The lecturer is successfully deleted');
       }
 
   })
@@ -229,7 +229,7 @@ exports.notification = async function (request, response)
 
     if(results.length > 0){
 
-        response.send('You have already sent sent this mesage' );
+        response.send('You have already sent sent this message' );
        }
        else
        {
@@ -247,11 +247,11 @@ exports.notification = async function (request, response)
         connection.query('INSERT INTO notifications SET ?',[notification_records], function (error, results, fields) {
           if (error) {
            
-            response.send('there are some error with query');
+            response.send('System currently facing a problem... Please contact the admin');
             
           }else{
             
-            response.send('Notification successullfy sent on this date: ' + date );
+            response.send('Notification successfully sent on this date: ' + date );
             
           }
         });//end of inserting data

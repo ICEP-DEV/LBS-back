@@ -118,7 +118,7 @@ exports.adminLogin =async function(request, response) {
              
              if ( results.length > 0) {
                  
-                 response.send('you have sucessfully loged in');
+                 response.send('you have successfully logged in');
                  
       
                 
