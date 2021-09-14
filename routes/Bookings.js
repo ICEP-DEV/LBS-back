@@ -21,7 +21,7 @@ exports.available =async function(request, response)
     connection.query('SELECT * FROM lab WHERE Lab_Date = ? ',[date], function(error, results, fields)  
       {
           if(results.length > 0){
-            if (currentTime >= 9  && currentTime < 10) //session starts at 8 the system should make sure that after 9 it has been removed (slot A)
+            if (currentTime >= 11  && currentTime < 14) //session starts at 8 the system should make sure that after 11 slot A is  removed 
             {
                 
            
@@ -55,7 +55,7 @@ exports.available =async function(request, response)
                     }
                })
             }
-        else  if (currentTime >= 10 && currentTime < 11 )//session starts at 9 the system should make sure that after 10 it has been removed (slot B)
+        else  if (currentTime >= 14 && currentTime < 17 )//session starts at 11 the system should make sure that after 14 it has been removed (slot B)
             {
         
                 var slot = 'B';
@@ -84,7 +84,7 @@ exports.available =async function(request, response)
                      }
                 })
             }
-            else  if (currentTime >= 11 && currentTime < 12 )//session starts at 9 the system should make sure that after 10 it has been removed (slot B)
+            else  if (currentTime >= 17 && currentTime < 20 )//session starts at 14:00 the system should make sure that after 17:00 it has been removed (slot B)
             {
         
                 var slot = 'C';
@@ -113,7 +113,7 @@ exports.available =async function(request, response)
                      }
                 })
             }
-            else  if (currentTime >= 12 && currentTime < 13 )//session starts at 9 the system should make sure that after 10 it has been removed (slot B)
+            else  if (currentTime >= 20 && currentTime < 23 )//session starts at 17:00 the system should make sure that after 20 it has been removed (slot B)
             {
         
                 var slot = 'D';
@@ -142,7 +142,7 @@ exports.available =async function(request, response)
                      }
                 })
             }
-            else  if (currentTime >= 13 && currentTime < 14 )//session starts at 9 the system should make sure that after 10 it has been removed (slot B)
+            else  if (currentTime >= 23 )//session starts at 20:00 the system should make sure that after 23 it has been removed (slot B)
             {
         
                 var slot = 'E';
@@ -171,64 +171,7 @@ exports.available =async function(request, response)
                      }
                 })
             }
-            else  if (currentTime >= 14 && currentTime < 15 )//session starts at 9 the system should make sure that after 10 it has been removed (slot B)
-            {
-        
-                var slot = 'F';
-        
-                //update availability since slot time is over
-                 connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?',[slot,date], function(error, results, fields)  
-                 {
-                 
-                     if (error) 
-                     { 
-                         response.send('System currently facing a problem... Please contact the admin');
-                     }
-                     else{
-                           connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
-                    
-                             if (results.length > 0)
-                             {
-                                response.send(results);
-                             }
-                             else{
-                                response.send('all labs are booked for the day');
-                             }
-         
-         
-                        })
-                     }
-                })
-            }
-            else  if (currentTime >= 16 && currentTime < 17 )//session starts at 9 the system should make sure that after 10 it has been removed (slot B)
-            {
-        
-                var slot = 'G';
-        
-                //update availability since slot time is over
-                 connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?',[slot,date], function(error, results, fields)  
-                 {
-                 
-                     if (error) 
-                     { 
-                         response.send('System currently facing a problem... Please contact the admin');
-                     }
-                     else{
-                           connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
-                    
-                             if (results.length > 0)
-                             {
-                                response.send(results);
-                             }
-                             else{
-                                response.send('all labs are booked for the day');
-                             }
-         
-         
-                        })
-                     }
-                })
-            }
+            
             else
             {
         
@@ -278,7 +221,7 @@ exports.labBooking=async function(request, response)
     var labAndSlot = request.body.labAndSlot;
     let dt = JSON.stringify(new Date)
     let date = dt.substr(1,10)
-    
+    let email = request.body.email;
     
     console.log(stuNumber)
     console.log(labAndSlot);
@@ -289,9 +232,29 @@ exports.labBooking=async function(request, response)
         var labName = labAndSlot.substr(0,6);
         var slot = labAndSlot.substr(16,1);
         var text = stuNumber;
+        let time = ""
+        let bookingID = ""
+        //else if statement for slot time
+        if (slot == "A"){
+          time = "08:00 - 11:00"
 
-       // response.send(labName + " "+slot )
-        //response.send(text)
+        }
+        else if(slot == "B"){
+          time = "11:00 - 14:00"
+        }
+        else if(slot == "C"){
+          
+          time = "14:00 - 17:00"
+        }
+        else if(slot == "D")
+        {
+          time = "17:00 - 20:00"
+
+        }
+        else if(slot == "E")
+        {
+          time = "20:00 - 23:00"
+        }
        
 
       
@@ -349,9 +312,74 @@ exports.labBooking=async function(request, response)
                                       response.send('System currently facing a problem... Please contact the admin');
                                   }
                                   else{
+                                  
+                                    //sql statement for getting the unique booking ID of a student
+                                    connection.query('SELECT Booking_ID  FROM  booking WHERE Stud_ID =? AND Lab_Name =? AND Lab_Slot =? AND date=?',[stuNumber,labName,slot,date],function (error, results, fields){
+
+                                       if(results.length > 0){
+                                     
+                                        //code for parsing a value only 
+                                         let bookingID1 = JSON.stringify(results)
+                                         this.booking = JSON.parse(bookingID1)
+                                         bookingID = this.booking[0].Booking_ID;
+                                         console.log(bookingID)
+                                      
+                                    
+                                    
+                                    
+                                    response.send("you have successfully booked for a lab check your tut4life for confirmation");
+
+                                    //write a code to send email with that pas string
+                                         var nodemailer = require('nodemailer')
+                                         var transporter = nodemailer.createTransport({
+            
+                                          service:'gmail',
+                                          auth:{
+                                          user:'godfrey555mabena@gmail.com',
+                                          pass:'godfreyzo'
+                    
+                                    }
+
+
+                                     });
+
+                                     var mailOptions ={
+
+                                     from:'godfrey555mabena@gmail.com',
+                                     to:JSON.stringify(email),
+                                     subject:'No reply :Booking Confirmation',
+                                     text: ( 'You Have successfully booked a lab' 
+                                            +'\nLab Name : '+ labName 
+                                            +'\nSlot     : ' + slot
+                                            +'\nTime     : ' + time 
+                                            +'\nDate     : ' + date
+                                            +'\nYour booking ID is : TUTLBSSC' +bookingID
+                                            +'\n\n\nThis email will grant you access to venue. you are advised to cancel this booking if you wont make it so other students can make use of this reservation ')
+
+                                     };
+
+
+                                      transporter.sendMail(mailOptions,function(error,info){
+
+                                       if(error){
+                                       console.log(error)
+                                     }else{
+                                          //response.send("you have successfully booked for a lab check your tut4life for confirmation");
+                                          console.log('Email sent ' + info.response)
+                                         
+                                     }
+
+
+                                     })
+                                    }
+                                     else{
+                                      response.send('system error')
+                                    }
+
+                                 })
 
                            
-                                        response.send("you have successfully booked for a lab");
+                                       
                                         
                                   }
       
@@ -391,13 +419,13 @@ exports.labBooking=async function(request, response)
 
 exports.status=async function(request, response) {
 
-    var stuNumber = 216646797;
+    var stuNumber = request.body.stuNumber;
     console.log(stuNumber)
 
     connection.query('SELECT * FROM booking Where Stud_ID =?',[stuNumber], function (error, results, fields) {
         if (error) {
          
-          response.send('System currently facing a problem... Please contact the admin');
+          response.send(results);
           
         }else{
           
