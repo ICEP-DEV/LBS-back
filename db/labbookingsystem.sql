@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Sep 08, 2021 at 03:50 PM
--- Server version: 10.4.17-MariaDB
--- PHP Version: 8.0.0
+-- Host: localhost
+-- Generation Time: Sep 13, 2021 at 11:28 AM
+-- Server version: 10.4.20-MariaDB
+-- PHP Version: 7.3.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -173,6 +173,26 @@ INSERT INTO `lecture_record` (`lec_id`, `lec_name`, `lec_surname`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `Notification_ID` int(20) NOT NULL,
+  `Notification` text NOT NULL,
+  `Notification_Date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `notifications`
+--
+
+INSERT INTO `notifications` (`Notification_ID`, `Notification`, `Notification_Date`) VALUES
+(1, ' please note that on 23 September ftom 22H00 to 24 September 14H00 we will be running system upgrades, so no labs can be booked during this time. We apologize for the inconvenience.', '2021-09-13'),
+(2, ' admin TESTicles', '2021-09-13');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `slot`
 --
 
@@ -276,6 +296,12 @@ ALTER TABLE `lecture_record`
   ADD PRIMARY KEY (`lec_id`);
 
 --
+-- Indexes for table `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`Notification_ID`);
+
+--
 -- Indexes for table `slot`
 --
 ALTER TABLE `slot`
@@ -320,6 +346,12 @@ ALTER TABLE `lab`
 --
 ALTER TABLE `lab_record`
   MODIFY `lab_no` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `notifications`
+--
+ALTER TABLE `notifications`
+  MODIFY `Notification_ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `slot`

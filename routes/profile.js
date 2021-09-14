@@ -29,7 +29,7 @@ exports.updatePassword =async function(request, response)
                     {
                         if(newPassword != confirmPassword)
                         {
-                            response.send('The new passwords does not match!');
+                            response.send('password does not match!');
                         }
                         else
                         {
@@ -37,7 +37,7 @@ exports.updatePassword =async function(request, response)
                             { 
                                 if (error)
                                 { 
-                                    response.send('there are some error with query');
+                                    response.send('System currently facing a problem... Please contact the admin');
                                 }
                                 else
                                 {  
@@ -47,7 +47,7 @@ exports.updatePassword =async function(request, response)
                         }
                     }
             }else{
-                response.send('you have entered an incorrect old password');
+                response.send('incorrect old password');
             }
         })
     }

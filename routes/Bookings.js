@@ -33,7 +33,7 @@ exports.available =async function(request, response)
                 
                     if (error) 
                     { 
-                        response.send('there are some error with query');
+                        response.send('System currently facing a problem... Please contact the admin');
                     }
                     else{
                           connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
@@ -66,7 +66,7 @@ exports.available =async function(request, response)
                  
                      if (error) 
                      { 
-                         response.send('there are some error with query');
+                         response.send('System currently facing a problem... Please contact the admin');
                      }
                      else{
                            connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
@@ -95,7 +95,7 @@ exports.available =async function(request, response)
                  
                      if (error) 
                      { 
-                         response.send('there are some error with query');
+                         response.send('System currently facing a problem... Please contact the admin');
                      }
                      else{
                            connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
@@ -124,7 +124,7 @@ exports.available =async function(request, response)
                  
                      if (error) 
                      { 
-                         response.send('there are some error with query');
+                         response.send('System currently facing a problem... Please contact the admin');
                      }
                      else{
                            connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
@@ -153,7 +153,7 @@ exports.available =async function(request, response)
                  
                      if (error) 
                      { 
-                         response.send('there are some error with query');
+                         response.send('System currently facing a problem... Please contact the admin');
                      }
                      else{
                            connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
@@ -182,7 +182,7 @@ exports.available =async function(request, response)
                  
                      if (error) 
                      { 
-                         response.send('there are some error with query');
+                         response.send('System currently facing a problem... Please contact the admin');
                      }
                      else{
                            connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
@@ -211,7 +211,7 @@ exports.available =async function(request, response)
                  
                      if (error) 
                      { 
-                         response.send('there are some error with query');
+                         response.send('System currently facing a problem... Please contact the admin');
                      }
                      else{
                            connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
@@ -335,7 +335,7 @@ exports.labBooking=async function(request, response)
                             if (error) 
                             {
                              
-                              response.send('there are some error with query');
+                              response.send('System currently facing a problem... Please contact the admin');
                               
                             }else
                             {
@@ -346,7 +346,7 @@ exports.labBooking=async function(request, response)
       
                                   if (error) 
                                   { 
-                                      response.send('there are some error with query');
+                                      response.send('System currently facing a problem... Please contact the admin');
                                   }
                                   else{
 
@@ -397,7 +397,7 @@ exports.status=async function(request, response) {
     connection.query('SELECT * FROM booking Where Stud_ID =?',[stuNumber], function (error, results, fields) {
         if (error) {
          
-          response.send('there are some error with query');
+          response.send('System currently facing a problem... Please contact the admin');
           
         }else{
           
@@ -439,14 +439,14 @@ exports.cancelBooking=async function(request, response) {
 
       if (error) 
       { 
-          response.send('there are some error with query');
+          response.send('System currently facing a problem... Please contact the admin');
       }
       else{
         connection.query('UPDATE booking SET MAX(Num_Bookings) = MAX(Num_Bookings) -1 WHERE date=?  AND Lab_Name =? AND Lab_Slot =? AND Stud_ID' , [date,labName,slot,stuNumber], function (error, results, fields)
             {
             if(error)
             {
-              response.send('problems with query');
+              response.send('System currently facing a problem... Please contact the admin');
             }else
             {
               response.send('booking has been cancelled');
