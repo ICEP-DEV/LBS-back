@@ -391,7 +391,7 @@ exports.labBooking=async function(request, response)
 
 exports.status=async function(request, response) {
 
-    var stuNumber = request.body.stuNumber;
+    var stuNumber = 216646797;
     console.log(stuNumber)
 
     connection.query('SELECT * FROM booking Where Stud_ID =?',[stuNumber], function (error, results, fields) {
