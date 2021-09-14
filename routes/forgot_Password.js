@@ -4,13 +4,16 @@ exports.forgotPassword =async function(request, response)
 {
 
     var stuNumber = request.body.stuNumber;
-    var email = request.body.email;
+
+    //validation for email stuNumber@tut4life.ac.za system only takes tut4life email
+    var stringEmail = stuNumber +"@tut4life.ac.za";
+    var email = stringEmail;
     
     console.log(stuNumber);
     console.log(email);
 
-    //validation for email stuNumber@tut4life.ac.za system only takes tut4life email
-    var stringEmail = stuNumber +"@tut4life.ac.za";
+    
+    
 
     if(stuNumber && email)//check if values are entered
     {
@@ -19,8 +22,7 @@ exports.forgotPassword =async function(request, response)
     
         if (results.length > 0){
 
-            if(email == stringEmail) //check if you have entered a correct tut4life email
-            {
+            
 
             var pas = " " //this string returns the users password
             response.send('your password has been sent to your tut4life email');
@@ -70,23 +72,17 @@ exports.forgotPassword =async function(request, response)
 
 
             })
-         }
-         else
-         {
-             response.send('Please enter a valid tut4life email')
-         }
-
             
         }
         else{
 
-            response.send('student number does not exist');            
+            response.send('student number does not exist please create an account or contact admin');            
         }
     
     })
  }else
  {
-     response.send('please enter values')
+     response.send('please enter student number')
  }
 }
     
