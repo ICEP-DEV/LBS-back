@@ -383,7 +383,7 @@ exports.labBooking=async function(request, response)
                                         
                                   }
       
-                                })// end of query for updation availability 
+                                })// end of query for updating availability 
                               })// end of query for booking
                           
                         
@@ -438,8 +438,32 @@ exports.status=async function(request, response) {
 
 }
 
+//API for counting the number of booking on the current day
+exports.bookingsNum = async function(request, response) {
 
-//APi for cancelling a bookng
+    var stu = request.body.stuNumber;
+    let dt = JSON.stringify(new Date);
+    let date = dt.substr(1,10);
+
+    console.log(stu);
+    console.log(date);
+
+    connection.query('SELECT COUNT(Num_Bookings) FROM booking WHERE Stud_ID = ? AND date = ?', [stu, date], function (error, results, fields)
+    {
+      if(results.length > 0)
+        {
+           response.send(results);
+        }
+        else{
+         
+          response.send('No bookings made today');
+        }
+    })
+   
+}
+
+
+//APi for cancelling a booking
 exports.cancelBooking=async function(request, response) {
 
 

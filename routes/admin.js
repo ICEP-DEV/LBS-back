@@ -192,23 +192,6 @@ exports.bookings = async function(request , response)
 
 
 
-exports.bookings = async function(request , response)
-{
-  connection.query('SELECT * FROM booking', function(error, results, fields)
-  {
-    if(results.length > 0)
-    {
-      response.send(results);
-      
-    }
-    else{
-      response.send('No bookings available');
-    }
-  })
-}
-
-
-
 
 //APi for sending admin notifications
 exports.notification = async function (request, response)

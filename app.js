@@ -70,8 +70,13 @@ app.post('/Lec_registration',registration.Lec_register)
 app.post('/updatePassword',profile.updatePassword);
 app.post('/profile',profile.profileDetails);
 app.post('/lab_Schedule',admin.lab_Schedule);
-app.post('/notification',admin.notification);  
-
+app.post('/notification',admin.notification);
+app.get('/studentsList',admin.studentsList);
+app.get('/LecturersList',admin.LecturersList);
+app.delete('/DeleteStudent',admin.DeleteStudent);
+app.delete('/DeleteLecturer',admin.DeleteLecturer);
+app.get('/bookings',admin.bookings);
 app.get('/get_notification',admin.get_notification); 
+app.post('/bookingsNum',booking.bookingsNum);
 
 //app.delete('/delete_notification',admin.get_notification); 
