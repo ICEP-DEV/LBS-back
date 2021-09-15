@@ -448,7 +448,7 @@ exports.bookingsNum = async function(request, response) {
     console.log(stu);
     console.log(date);
 
-    connection.query('SELECT COUNT(Num_Bookings) FROM booking WHERE Stud_ID = ? AND date = ?', [stu, date], function (error, results, fields)
+    connection.query('SELECT COUNT(Num_Bookings) as Num_Bookings FROM booking WHERE Stud_ID = ? AND date = ?', [stu, date], function (error, results, fields)
     {
       if(results.length > 0)
         {
