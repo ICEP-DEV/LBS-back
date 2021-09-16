@@ -40,7 +40,7 @@ exports.lab_Schedule =async function(request, response) {
             connection.query('INSERT INTO lab SET ?',[lab_records], function (error, results, fields) {
               if (error) {
                
-                response.send('there are some error with query');
+                response.send('System currently facing a problem... Please contact the admin');
                 
               }else{
                 
@@ -71,7 +71,7 @@ exports.lab_Schedule =async function(request, response) {
 }
 
 
-//this APi will reseve an available lab for other purpose
+//this APi will reserve an available lab for other purpose
 
 
 exports.ReserveLab =async function(request, response) {
@@ -90,7 +90,7 @@ exports.ReserveLab =async function(request, response) {
     connection.query('DELETE  FROM lab where Lab_Name =?  AND Lab_Slot =? AND Lab_Date =? ' , [labName,slot,date], function (error, results, fields) {
       if (error) {
 
-        response.send('error running the query')
+        response.send('System currently facing a problem... Please contact the admin')
 
       }else{
       
@@ -147,7 +147,7 @@ exports.DeleteStudent =async function(request, response) {
   connection.query('DELETE FROM student WHERE stud_no = ?',[stuNumber], function(error, results, fields) {
       if(error)
       {
-        response.send('error running the query');
+        response.send('System currently facing a problem... Please contact the admin');
       }
       else{
         response.send('The student is successfully deleted');
@@ -165,10 +165,10 @@ exports.DeleteLecturer =async function(request, response) {
   connection.query('DELETE FROM lecture WHERE lec_id = ?',[lecturerID], function(error, results, fields) {
       if(error)
       {
-        response.send('error running the query');
+        response.send('System currently facing a problem... Please contact the admin');
       }
       else{
-        response.send('The lecture is successfully deleted');
+        response.send('The lecturer is successfully deleted');
       }
 
   })
@@ -177,39 +177,114 @@ exports.DeleteLecturer =async function(request, response) {
 
 exports.bookings = async function(request , response)
 {
-
-var bookingID = request.body.bookingID;
-var StudentID = request.body.StudentID;
-
-console.log(StudentID);
-console.log(bookingID);
-
-
-  if(bookingID  && StudentID )
+  connection.query('SELECT * FROM booking', function(error, results, fields)
   {
-    connection.query('SELECT Booking_ID FROM booking WHERE  Booking_ID = ? AND  Stud_ID = ?', [bookingID, StudentID],function(error, results, fields)
-        {
-          if(results.length > 0)
-          {
-            connection.query('DELETE FROM booking WHERE Booking_ID =? AND Stud_ID =?', [bookingID, StudentID],function(error, results, fields)
-            {
-              if(error)
-              {
-                response.send('error running the query');
-              }
-              else{
-                response.send('deleted sucessfully');
-              }
-            })
-          }
-          else{
-            response.send('The booking ID is incorrect');
-          }
-
-        })
-  }
-  else{
-    response.send('Please enter the values');
-  }
+    if(results.length > 0)
+    {
+      response.send(results);
+      
+    }
+    else{
+      response.send('No bookings available');
+    }
+  })
 }
 
+
+
+
+//APi for sending admin notifications
+exports.notification = async function (request, response)
+{ let dt = JSON.stringify(new Date)
+  let date = dt.substr(1,10)
+  
+  
+  var notification_Date = date;
+  var notification_message = request.body.Notification;
+
+
+
+
+  if(notification_Date && notification_message ){
+         
+       
+    connection.query('SELECT * FROM notifications WHERE Notification_Date  =? AND Notification =?',[notification_Date, notification_message], function (error, results, fields) {
+
+    if(results.length > 0){
+
+        response.send('You have already sent sent this message' );
+       }
+       else
+       {
+        var notification_records={
+
+          
+
+           
+            "Notification_Date":notification_Date,
+                    
+            "Notification":notification_message
+        
+   
+        } 
+        connection.query('INSERT INTO notifications SET ?',[notification_records], function (error, results, fields) {
+          if (error) {
+           
+            response.send('System currently facing a problem... Please contact the admin');
+            
+          }else{
+            
+            response.send('Notification successfully sent on this date: ' + date );
+            
+          }
+        });//end of inserting data
+
+       }
+    
+
+
+
+    } ) 
+   
+
+}
+else{
+    response.send('Please enter values');	  
+}
+
+
+
+
+
+}
+
+
+
+//API for getting admin notifications
+
+
+
+exports.get_notification = async function(request, response){
+
+  
+  var notif_Date = request.body.Notification_Date;
+  
+  if(notif_Date ){
+  
+    connection.query('SELECT * FROM notifications WHERE Notification_Date  =?' , [notif_Date], function (error, results, fields) {
+      if (results.length > 0) {
+
+        response.send(results);
+
+      }else{
+      
+     
+       response.send('No results found for this date: ' + notif_Date); 
+      
+      }
+    })
+  
+  
+  }
+
+}

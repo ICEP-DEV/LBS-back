@@ -31,17 +31,16 @@ var profile = require('./routes/profile');
 var admin = require('./routes/admin');
 
 
+
 //code to test the get function
 
 app.get('/j',function(request,response){
 
-  let dt = JSON.stringify(new Date)
-  let date = dt.substr(1,10)
-  let time = dt.substr(12,2);
-
-  let currentTime = time;
+     let dt = JSON.stringify(new Date)
+     let date = dt.substr(1,10)
+     let time =dt.substr(12,2);
     
-    response.send(currentTime)
+    response.send(dt)
     
     
 })
@@ -71,9 +70,13 @@ app.post('/Lec_registration',registration.Lec_register)
 app.post('/updatePassword',profile.updatePassword);
 app.post('/profile',profile.profileDetails);
 app.post('/lab_Schedule',admin.lab_Schedule);
-app.delete('/ReserveLab',admin.ReserveLab);
-app.post('/studentsList',admin.studentsList);
-app.post('/LecturersList',admin.LecturersList);
+app.post('/notification',admin.notification);
+app.get('/studentsList',admin.studentsList);
+app.get('/LecturersList',admin.LecturersList);
 app.delete('/DeleteStudent',admin.DeleteStudent);
 app.delete('/DeleteLecturer',admin.DeleteLecturer);
-app.delete('/bookings',admin.bookings);
+app.get('/bookings',admin.bookings);
+app.get('/get_notification',admin.get_notification); 
+app.post('/bookingsNum',booking.bookingsNum);
+
+//app.delete('/delete_notification',admin.get_notification); 
