@@ -414,25 +414,26 @@ exports.status=async function(request, response) {
 //APi for cancelling a bookng
 exports.cancelBooking=async function(request, response) {
 
-
- 
-  var labName = request.body.labName;
-  var slot = request.body.slot;
+   
   var stuNumber = request.body.stuNumber;
+  var labAndSlot = request.body.labAndSlot;
   let dt = JSON.stringify(new Date)
   let date = dt.substr(1,10)
-   
-  console.log(labName);
-  console.log(slot);
+  
+  
   console.log(stuNumber)
-  console.log(date)
+  console.log(labAndSlot)
 
 
-
+  if(stuNumber && labAndSlot)
+  {
+      var labName = labAndSlot.substr(0,6);
+      var slot = labAndSlot.substr(16,1);
+   
 
 
   connection.query('DELETE  FROM booking where date=?  AND Lab_Name =? AND Lab_Slot =? AND Stud_ID' , [date,labName,slot,stuNumber], function (error, results, fields) {
-	  if (error) {}else{
+	  if (error) {response.send('problems with query');}else{
 	  
    
     connection.query('UPDATE lab SET Lab_availability =  Lab_availability -1   WHERE Lab_Slot =? AND Lab_Name =? AND date =?',[slot,labName,date], function(error, results, fields){ //updates and makes a booking
@@ -457,14 +458,16 @@ exports.cancelBooking=async function(request, response) {
       }
     
     })
+  
 
   }
 
-
-
-
-
-
 	});
+
+}
+else{
+
+   response.send('select a slot that you wish to cancel a booking of')
+}
 
 }
