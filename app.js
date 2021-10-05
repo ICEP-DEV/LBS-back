@@ -61,6 +61,7 @@ app.post('/forgotPassword',forgotPassword.forgotPassword);
 app.get('/availableLabs',booking.available);
 app.get('/lectureAvailLabs',booking.lectureLabs)
 app.post('/book',booking.labBooking);
+app.post('/lectureBooking',booking.lecLabBooking)
 app.post('/adminLogin', login.adminLogin);
 app.post('/bookingStatus',booking.status);
 app.post('/Lec_registration',registration.Lec_register)
