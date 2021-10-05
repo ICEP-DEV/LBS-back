@@ -233,7 +233,7 @@ exports.labBooking=async function(request, response)
         var slot = labAndSlot.substr(16,1);
         var text = stuNumber;
         let time = ""
-        let bookingID = ""
+       
         //else if statement for slot time
         if (slot == "A"){
           time = "08:00 - 11:00"
@@ -319,6 +319,7 @@ exports.labBooking=async function(request, response)
                                        if(results.length > 0){
                                      
                                         //code for parsing a value only 
+                                         let bookingID = ""
                                          let bookingID1 = JSON.stringify(results)
                                          this.booking = JSON.parse(bookingID1)
                                          bookingID = this.booking[0].Booking_ID;
@@ -426,6 +427,8 @@ exports.status=async function(request, response) {
         if (error) {
          
           response.send(results);
+
+          
           
         }else{
           
@@ -444,6 +447,7 @@ exports.bookingsNum = async function(request, response) {
     var stu = request.body.stuNumber;
     let dt = JSON.stringify(new Date);
     let date = dt.substr(1,10);
+    let bookingID = ""
 
     console.log(stu);
     console.log(date);
@@ -452,7 +456,14 @@ exports.bookingsNum = async function(request, response) {
     {
       if(results.length > 0)
         {
-           response.send(results);
+           
+           //code for parsing a value only 
+          
+           let bookingID1 = JSON.stringify(results)
+           this.booking = JSON.parse(bookingID1)
+           bookingID = this.booking[0].Num_Bookings; // important part variable name should be the same as the one on the db
+           console.log(bookingID)
+           response.send(JSON.stringify(bookingID));
         }
         else{
          

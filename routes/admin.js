@@ -14,6 +14,29 @@ exports.lab_Schedule =async function(request, response) {
     var capacity = request.body.capacity;
     var avail = 0;
     var date = request.body.date;
+    let time = " "
+
+      //else if statement for slot time
+      if (slot == "A"){
+        time = "08:00 - 11:00"
+
+      }
+      else if(slot == "B"){
+        time = "11:00 - 14:00"
+      }
+      else if(slot == "C"){
+        
+        time = "14:00 - 17:00"
+      }
+      else if(slot == "D")
+      {
+        time = "17:00 - 20:00"
+
+      }
+      else if(slot == "E")
+      {
+        time = "20:00 - 23:00"
+      }
     
     
     if(labName && slot && capacity && date ){
@@ -35,6 +58,7 @@ exports.lab_Schedule =async function(request, response) {
                 "Lab_Capacity":capacity,
                 "Lab_availability":avail, 
                 "Lab_Date":date,
+                "time":time,
        
             } 
             connection.query('INSERT INTO lab SET ?',[lab_records], function (error, results, fields) {
