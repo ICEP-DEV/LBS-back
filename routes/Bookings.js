@@ -6,7 +6,7 @@ const e = require('express');
 
 
 
-// API for listing available labs
+// API for listing available labs for students
 exports.available =async function(request, response) 
 {
 
@@ -16,9 +16,10 @@ exports.available =async function(request, response)
     let time = dt.substr(12,2);
 
     let currentTime = time;
+    var user = "student"
+    
 
-   
-    connection.query('SELECT * FROM lab WHERE Lab_Date = ? ',[date], function(error, results, fields)  
+    connection.query('SELECT * FROM lab WHERE Lab_Date = ? AND users =?',[date,user], function(error, results, fields)  
       {
           if(results.length > 0){
             if (currentTime >= 11  && currentTime < 14) //session starts at 8 the system should make sure that after 11 slot A is  removed 
@@ -28,7 +29,7 @@ exports.available =async function(request, response)
               var slot = 'A';
         
                //update availability since slot time is over
-                connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =?  AND Lab_Date =?',[slot,date], function(error, results, fields)  
+                connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =?  AND Lab_Date =? AND users =?',[slot,date,user], function(error, results, fields)  
                 {
                 
                     if (error) 
@@ -36,7 +37,7 @@ exports.available =async function(request, response)
                         response.send('System currently facing a problem... Please contact the admin');
                     }
                     else{
-                          connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
+                          connection.query('SELECT * FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =? AND users =?',[date,user], function(error, results, fields)  {
                    
                             if (results.length > 0)
                             {
@@ -61,7 +62,7 @@ exports.available =async function(request, response)
                 var slot = 'B';
         
                 //update availability since slot time is over
-                 connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?',[slot,date], function(error, results, fields)  
+                 connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?  AND users =?',[slot,date,user], function(error, results, fields)  
                  {
                  
                      if (error) 
@@ -69,7 +70,7 @@ exports.available =async function(request, response)
                          response.send('System currently facing a problem... Please contact the admin');
                      }
                      else{
-                           connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
+                           connection.query('SELECT * FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =? AND users =?',[date,user], function(error, results, fields)  {
                     
                              if (results.length > 0)
                              {
@@ -90,7 +91,7 @@ exports.available =async function(request, response)
                 var slot = 'C';
         
                 //update availability since slot time is over
-                 connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?',[slot,date], function(error, results, fields)  
+                 connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?  AND users =?',[slot,date,user], function(error, results, fields)  
                  {
                  
                      if (error) 
@@ -98,7 +99,7 @@ exports.available =async function(request, response)
                          response.send('System currently facing a problem... Please contact the admin');
                      }
                      else{
-                           connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
+                           connection.query('SELECT * FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =? AND users =?',[date,user], function(error, results, fields)  {
                     
                              if (results.length > 0)
                              {
@@ -119,7 +120,7 @@ exports.available =async function(request, response)
                 var slot = 'D';
         
                 //update availability since slot time is over
-                 connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?',[slot,date], function(error, results, fields)  
+                 connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?  AND users =?',[slot,date,user], function(error, results, fields)  
                  {
                  
                      if (error) 
@@ -127,7 +128,7 @@ exports.available =async function(request, response)
                          response.send('System currently facing a problem... Please contact the admin');
                      }
                      else{
-                           connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
+                           connection.query('SELECT * FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =? AND users =?',[date,user], function(error, results, fields)  {
                     
                              if (results.length > 0)
                              {
@@ -148,7 +149,7 @@ exports.available =async function(request, response)
                 var slot = 'E';
         
                 //update availability since slot time is over
-                 connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?',[slot,date], function(error, results, fields)  
+                 connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?  AND users =?',[slot,date,user], function(error, results, fields)  
                  {
                  
                      if (error) 
@@ -156,7 +157,7 @@ exports.available =async function(request, response)
                          response.send('System currently facing a problem... Please contact the admin');
                      }
                      else{
-                           connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields)  {
+                           connection.query('SELECT * FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =? AND users =?',[date,user], function(error, results, fields)  {
                     
                              if (results.length > 0)
                              {
@@ -175,7 +176,7 @@ exports.available =async function(request, response)
             else
             {
         
-                connection.query('SELECT Lab_Name, Lab_Slot FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =?',[date], function(error, results, fields) 
+                connection.query('SELECT * FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =? AND users =?',[date,user], function(error, results, fields) 
                  {
                     
                     if (results.length > 0)
@@ -204,6 +205,204 @@ exports.available =async function(request, response)
 
     // else if statements to show available labs 
    
+
+}
+
+
+
+//API for listing available labs for lectures
+exports.lectureLabs =async function(request, response) 
+{
+   
+  let dt = JSON.stringify(new Date)
+  let date = dt.substr(1,10)
+  let time = dt.substr(12,2);
+
+  let currentTime = time;
+  var user = "Lecture"
+  
+
+  connection.query('SELECT * FROM lab WHERE Lab_Date = ? AND users =?',[date,user], function(error, results, fields)  
+    {
+        if(results.length > 0){
+          if (currentTime >= 11  && currentTime < 14) //session starts at 8 the system should make sure that after 11 slot A is  removed 
+          {
+              
+         
+            var slot = 'A';
+      
+             //update availability since slot time is over
+              connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =?  AND Lab_Date =? AND users =?',[slot,date,user], function(error, results, fields)  
+              {
+              
+                  if (error) 
+                  { 
+                      response.send('System currently facing a problem... Please contact the admin');
+                  }
+                  else{
+                        connection.query('SELECT * FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =? AND users =?',[date,user], function(error, results, fields)  {
+                 
+                          if (results.length > 0)
+                          {
+        
+                              
+                              response.send(results);
+      
+                             
+                          }
+                          else{
+                              response.send('all labs are booked for the day');
+                          }
+      
+      
+                     })
+                  }
+             })
+          }
+      else  if (currentTime >= 14 && currentTime < 17 )//session starts at 11 the system should make sure that after 14 it has been removed (slot B)
+          {
+      
+              var slot = 'B';
+      
+              //update availability since slot time is over
+               connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?  AND users =?',[slot,date,user], function(error, results, fields)  
+               {
+               
+                   if (error) 
+                   { 
+                       response.send('System currently facing a problem... Please contact the admin');
+                   }
+                   else{
+                         connection.query('SELECT * FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =? AND users =?',[date,user], function(error, results, fields)  {
+                  
+                           if (results.length > 0)
+                           {
+                              response.send(results);
+                           }
+                           else{
+                              response.send('all labs are booked for the day');
+                           }
+       
+       
+                      })
+                   }
+              })
+          }
+          else  if (currentTime >= 17 && currentTime < 20 )//session starts at 14:00 the system should make sure that after 17:00 it has been removed (slot B)
+          {
+      
+              var slot = 'C';
+      
+              //update availability since slot time is over
+               connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?  AND users =?',[slot,date,user], function(error, results, fields)  
+               {
+               
+                   if (error) 
+                   { 
+                       response.send('System currently facing a problem... Please contact the admin');
+                   }
+                   else{
+                         connection.query('SELECT * FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =? AND users =?',[date,user], function(error, results, fields)  {
+                  
+                           if (results.length > 0)
+                           {
+                              response.send(results);
+                           }
+                           else{
+                              response.send('all labs are booked for the day');
+                           }
+       
+       
+                      })
+                   }
+              })
+          }
+          else  if (currentTime >= 20 && currentTime < 23 )//session starts at 17:00 the system should make sure that after 20 it has been removed (slot B)
+          {
+      
+              var slot = 'D';
+      
+              //update availability since slot time is over
+               connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?  AND users =?',[slot,date,user], function(error, results, fields)  
+               {
+               
+                   if (error) 
+                   { 
+                       response.send('System currently facing a problem... Please contact the admin');
+                   }
+                   else{
+                         connection.query('SELECT * FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =? AND users =?',[date,user], function(error, results, fields)  {
+                  
+                           if (results.length > 0)
+                           {
+                              response.send(results);
+                           }
+                           else{
+                              response.send('all labs are booked for the day');
+                           }
+       
+       
+                      })
+                   }
+              })
+          }
+          else  if (currentTime >= 23 )//session starts at 20:00 the system should make sure that after 23 it has been removed (slot B)
+          {
+      
+              var slot = 'E';
+      
+              //update availability since slot time is over
+               connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Date =?  AND users =?',[slot,date,user], function(error, results, fields)  
+               {
+               
+                   if (error) 
+                   { 
+                       response.send('System currently facing a problem... Please contact the admin');
+                   }
+                   else{
+                         connection.query('SELECT * FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =? AND users =?',[date,user], function(error, results, fields)  {
+                  
+                           if (results.length > 0)
+                           {
+                              response.send(results);
+                           }
+                           else{
+                              response.send('all labs are booked for the day');
+                           }
+       
+       
+                      })
+                   }
+              })
+          }
+          
+          else
+          {
+      
+              connection.query('SELECT * FROM lab WHERE Lab_availability  < Lab_Capacity AND Lab_Date =? AND users =?',[date,user], function(error, results, fields) 
+               {
+                  
+                  if (results.length > 0)
+                  {
+                     response.send(results);
+                  }
+                  else{
+                      response.send('all labs are booked for the day');
+                  }
+                
+      
+              })
+      
+         }
+        }
+        else{
+
+          response.send('no labs published for this day');
+        }
+
+
+    })// end of checking for todays date
+
 
 }
 
