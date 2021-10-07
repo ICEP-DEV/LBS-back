@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost
--- Generation Time: Sep 13, 2021 at 11:28 AM
--- Server version: 10.4.20-MariaDB
--- PHP Version: 7.3.29
+-- Host: 127.0.0.1
+-- Generation Time: Oct 07, 2021 at 10:16 AM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 8.0.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -52,21 +52,11 @@ INSERT INTO `admin` (`Admin_ID`, `Admin_Name`, `Admin_Surname`, `Admin_Email`, `
 CREATE TABLE `booking` (
   `Booking_ID` int(11) NOT NULL,
   `Lab_Name` varchar(255) NOT NULL,
-  `Lab_Slot` varchar(1) NOT NULL,
-  `Stud_ID` int(11) NOT NULL,
+  `Session` int(11) NOT NULL,
   `Num_Bookings` int(11) NOT NULL,
-  `date` date NOT NULL
+  `Stud_ID` int(11) NOT NULL,
+  `Lec_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `booking`
---
-
-INSERT INTO `booking` (`Booking_ID`, `Lab_Name`, `Lab_Slot`, `Stud_ID`, `Num_Bookings`, `date`) VALUES
-(28, '10-120', 'B', 216646797, 6, '2021-09-09'),
-(30, '10-120', 'F', 216646797, 4, '2021-09-02'),
-(32, '10-120', 'G', 216646797, 2, '2021-09-08'),
-(33, '10-120', 'F', 216646797, 1, '2021-09-08');
 
 -- --------------------------------------------------------
 
@@ -75,45 +65,10 @@ INSERT INTO `booking` (`Booking_ID`, `Lab_Name`, `Lab_Slot`, `Stud_ID`, `Num_Boo
 --
 
 CREATE TABLE `lab` (
-  `Lab_ID` int(11) NOT NULL,
   `Lab_Name` varchar(255) NOT NULL,
   `Lab_Capacity` int(11) NOT NULL,
-  `Lab_Slot` varchar(1) NOT NULL,
-  `Lab_availability` int(11) NOT NULL,
-  `Lab_Date` date NOT NULL
+  `Lab_Duration` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `lab`
---
-
-INSERT INTO `lab` (`Lab_ID`, `Lab_Name`, `Lab_Capacity`, `Lab_Slot`, `Lab_availability`, `Lab_Date`) VALUES
-(2, '10-120', 40, 'A', 38, '2021-08-31'),
-(4, '10-140', 40, 'C', 0, '2021-08-31'),
-(5, '10-140', 40, 'B', 0, '2021-08-31'),
-(6, '10-140', 51, 'A', 52, '2021-09-01'),
-(7, '10-120', 40, 'C', 0, '2021-09-01'),
-(8, '10-120', 40, 'B', 52, '2021-09-01'),
-(9, '10-140', 40, 'D', 41, '2021-09-01'),
-(10, '10-120', 40, 'A', 41, '2021-09-01'),
-(11, '10-138', 40, 'B', 41, '2021-09-01'),
-(12, '10-138', 40, 'E', 0, '2021-09-01'),
-(13, '10-138', 40, 'F', 0, '2021-09-01'),
-(14, '10-140', 40, 'E', 0, '2021-09-01'),
-(15, '10-138', 40, 'B', 0, '2021-09-06'),
-(16, '10-138', 40, 'C', 1, '2021-09-06'),
-(17, '10-138', 40, 'D', 0, '2021-09-06'),
-(18, '10-138', 40, 'A', 0, '2021-09-07'),
-(19, '10-138', 40, 'B', 0, '2021-09-07'),
-(20, '10-120', 40, 'B', 11, '2021-09-07'),
-(21, '10-120', 40, 'B', 11, '2021-09-06'),
-(24, '10-120', 40, 'B', 11, '2021-09-08'),
-(25, '10-120', 40, 'G', 16, '2021-09-08'),
-(26, '10-120', 40, 'E', 41, '2021-09-08'),
-(27, '10-120', 40, 'F', 12, '2021-09-08'),
-(28, '10-120', 40, 'D', 41, '2021-09-08'),
-(29, '10-120', 40, 'C', 41, '2021-09-08'),
-(30, '10-120', 40, 'A', 41, '2021-09-08');
 
 -- --------------------------------------------------------
 
@@ -136,9 +91,8 @@ CREATE TABLE `lab_record` (
 
 CREATE TABLE `lecture` (
   `lec_id` int(11) NOT NULL,
-  `lec_name` varchar(255) NOT NULL,
-  `lec_surname` varchar(255) NOT NULL,
-  `lec_email` varchar(255) NOT NULL,
+  `lec_name` varchar(11) NOT NULL,
+  `lec_email` varchar(11) NOT NULL,
   `password` varchar(255) NOT NULL,
   `confirm` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -147,28 +101,8 @@ CREATE TABLE `lecture` (
 -- Dumping data for table `lecture`
 --
 
-INSERT INTO `lecture` (`lec_id`, `lec_name`, `lec_surname`, `lec_email`, `password`, `confirm`) VALUES
-(21554, 'chief', 'mabena', '21554@tut4life.ac.za', 'a', 'a');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `lecture_record`
---
-
-CREATE TABLE `lecture_record` (
-  `lec_id` int(11) NOT NULL,
-  `lec_name` varchar(255) NOT NULL,
-  `lec_surname` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `lecture_record`
---
-
-INSERT INTO `lecture_record` (`lec_id`, `lec_name`, `lec_surname`) VALUES
-(21554, 'ntuli', 'ranaka'),
-(21664, 'chief', 'lekalakala');
+INSERT INTO `lecture` (`lec_id`, `lec_name`, `lec_email`, `password`, `confirm`) VALUES
+(214565692, 'the-lecture', '214565692@t', 'password1', 'password1');
 
 -- --------------------------------------------------------
 
@@ -177,8 +111,8 @@ INSERT INTO `lecture_record` (`lec_id`, `lec_name`, `lec_surname`) VALUES
 --
 
 CREATE TABLE `notifications` (
-  `Notification_ID` int(20) NOT NULL,
-  `Notification` text NOT NULL,
+  `Notification_ID` int(10) NOT NULL,
+  `Notification` varchar(250) NOT NULL,
   `Notification_Date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -187,8 +121,8 @@ CREATE TABLE `notifications` (
 --
 
 INSERT INTO `notifications` (`Notification_ID`, `Notification`, `Notification_Date`) VALUES
-(1, ' please note that on 23 September ftom 22H00 to 24 September 14H00 we will be running system upgrades, so no labs can be booked during this time. We apologize for the inconvenience.', '2021-09-13'),
-(2, ' admin TESTicles', '2021-09-13');
+(2, 'Admin TESTicles', '2021-10-07'),
+(3, 'Please note there will be system upgrade from 10 a.m 02 November to 10 p.m so no labs can be bookedn during this time', '2021-10-07');
 
 -- --------------------------------------------------------
 
@@ -220,7 +154,8 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`stud_no`, `stu_name`, `stud_surname`, `email`, `password`, `confirm`) VALUES
-(216646797, 'godfrey', 'mabena', '216646797@tut4life.ac.za', '12', '12'),
+(214565692, 'zwlkh', 'masilela', '214565692@tut4life.ac.za', 'password1', 'password1'),
+(216646797, 'godfreykllll', 'mabena', '216646797@tut4life.ac.za', 'a', 'a'),
 (217409950, 'Ricky', 'Tala', '217409950@tut4life.ac.za', '1234', '1234');
 
 -- --------------------------------------------------------
@@ -275,25 +210,13 @@ ALTER TABLE `booking`
 -- Indexes for table `lab`
 --
 ALTER TABLE `lab`
-  ADD PRIMARY KEY (`Lab_ID`);
+  ADD PRIMARY KEY (`Lab_Name`);
 
 --
 -- Indexes for table `lab_record`
 --
 ALTER TABLE `lab_record`
   ADD PRIMARY KEY (`lab_no`);
-
---
--- Indexes for table `lecture`
---
-ALTER TABLE `lecture`
-  ADD PRIMARY KEY (`lec_id`);
-
---
--- Indexes for table `lecture_record`
---
-ALTER TABLE `lecture_record`
-  ADD PRIMARY KEY (`lec_id`);
 
 --
 -- Indexes for table `notifications`
@@ -333,13 +256,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `Booking_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
-
---
--- AUTO_INCREMENT for table `lab`
---
-ALTER TABLE `lab`
-  MODIFY `Lab_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `Booking_ID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `lab_record`
@@ -351,7 +268,7 @@ ALTER TABLE `lab_record`
 -- AUTO_INCREMENT for table `notifications`
 --
 ALTER TABLE `notifications`
-  MODIFY `Notification_ID` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Notification_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `slot`
