@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 07, 2021 at 10:16 AM
+-- Generation Time: Oct 07, 2021 at 10:37 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 8.0.0
 
@@ -52,11 +52,19 @@ INSERT INTO `admin` (`Admin_ID`, `Admin_Name`, `Admin_Surname`, `Admin_Email`, `
 CREATE TABLE `booking` (
   `Booking_ID` int(11) NOT NULL,
   `Lab_Name` varchar(255) NOT NULL,
-  `Session` int(11) NOT NULL,
-  `Num_Bookings` int(11) NOT NULL,
+  `Lab_Slot` varchar(1) NOT NULL,
   `Stud_ID` int(11) NOT NULL,
-  `Lec_ID` int(11) NOT NULL
+  `Num_Bookings` int(11) NOT NULL,
+  `date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `booking`
+--
+
+INSERT INTO `booking` (`Booking_ID`, `Lab_Name`, `Lab_Slot`, `Stud_ID`, `Num_Bookings`, `date`) VALUES
+(54, '10-120', 'D', 216646797, 2, '2021-09-16'),
+(55, '10-120', 'B', 216646797, 1, '2021-10-05');
 
 -- --------------------------------------------------------
 
@@ -65,10 +73,26 @@ CREATE TABLE `booking` (
 --
 
 CREATE TABLE `lab` (
+  `Lab_ID` int(11) NOT NULL,
   `Lab_Name` varchar(255) NOT NULL,
   `Lab_Capacity` int(11) NOT NULL,
-  `Lab_Duration` int(11) NOT NULL
+  `Lab_Slot` varchar(1) NOT NULL,
+  `Lab_availability` int(11) NOT NULL,
+  `Lab_Date` date NOT NULL,
+  `time` varchar(255) NOT NULL,
+  `descr` varchar(255) NOT NULL,
+  `users` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `lab`
+--
+
+INSERT INTO `lab` (`Lab_ID`, `Lab_Name`, `Lab_Capacity`, `Lab_Slot`, `Lab_availability`, `Lab_Date`, `time`, `descr`, `users`) VALUES
+(65, '10-120', 40, 'A', 41, '2021-10-05', '08:00 - 11:00', 'software development lab', 'student'),
+(66, '10-120', 40, 'B', 1, '2021-10-05', '11:00 - 14:00', 'software development lab', 'student'),
+(67, '10-140', 40, 'C', 0, '2021-10-05', '14:00 - 17:00', 'IIS lab', 'lecturer'),
+(68, '10-240', 40, 'D', 0, '2021-10-05', '17:00 - 20:00', 'multimedia lab', 'lecturer');
 
 -- --------------------------------------------------------
 
@@ -91,8 +115,9 @@ CREATE TABLE `lab_record` (
 
 CREATE TABLE `lecture` (
   `lec_id` int(11) NOT NULL,
-  `lec_name` varchar(11) NOT NULL,
-  `lec_email` varchar(11) NOT NULL,
+  `lec_name` varchar(255) NOT NULL,
+  `lec_surname` varchar(255) NOT NULL,
+  `lec_email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `confirm` varchar(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -101,8 +126,28 @@ CREATE TABLE `lecture` (
 -- Dumping data for table `lecture`
 --
 
-INSERT INTO `lecture` (`lec_id`, `lec_name`, `lec_email`, `password`, `confirm`) VALUES
-(214565692, 'the-lecture', '214565692@t', 'password1', 'password1');
+INSERT INTO `lecture` (`lec_id`, `lec_name`, `lec_surname`, `lec_email`, `password`, `confirm`) VALUES
+(21554, 'chief', 'mabena', '21554@tut4life.ac.za', 'a', 'a');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `lecture_record`
+--
+
+CREATE TABLE `lecture_record` (
+  `lec_id` int(11) NOT NULL,
+  `lec_name` varchar(255) NOT NULL,
+  `lec_surname` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `lecture_record`
+--
+
+INSERT INTO `lecture_record` (`lec_id`, `lec_name`, `lec_surname`) VALUES
+(21554, 'ntuli', 'ranaka'),
+(21664, 'chief', 'lekalakala');
 
 -- --------------------------------------------------------
 
@@ -115,14 +160,6 @@ CREATE TABLE `notifications` (
   `Notification` varchar(250) NOT NULL,
   `Notification_Date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `notifications`
---
-
-INSERT INTO `notifications` (`Notification_ID`, `Notification`, `Notification_Date`) VALUES
-(2, 'Admin TESTicles', '2021-10-07'),
-(3, 'Please note there will be system upgrade from 10 a.m 02 November to 10 p.m so no labs can be bookedn during this time', '2021-10-07');
 
 -- --------------------------------------------------------
 
@@ -154,9 +191,8 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`stud_no`, `stu_name`, `stud_surname`, `email`, `password`, `confirm`) VALUES
-(214565692, 'zwlkh', 'masilela', '214565692@tut4life.ac.za', 'password1', 'password1'),
-(216646797, 'godfreykllll', 'mabena', '216646797@tut4life.ac.za', 'a', 'a'),
-(217409950, 'Ricky', 'Tala', '217409950@tut4life.ac.za', '1234', '1234');
+(216579615, 'siya', 'dhl', '216579615@tut4life.ac.za', 'a', 'a'),
+(216646797, 'godfrey', 'mabena', '216646797@tut4life.ac.za', 'a', 'a');
 
 -- --------------------------------------------------------
 
@@ -210,7 +246,7 @@ ALTER TABLE `booking`
 -- Indexes for table `lab`
 --
 ALTER TABLE `lab`
-  ADD PRIMARY KEY (`Lab_Name`);
+  ADD PRIMARY KEY (`Lab_ID`);
 
 --
 -- Indexes for table `lab_record`
@@ -219,10 +255,16 @@ ALTER TABLE `lab_record`
   ADD PRIMARY KEY (`lab_no`);
 
 --
--- Indexes for table `notifications`
+-- Indexes for table `lecture`
 --
-ALTER TABLE `notifications`
-  ADD PRIMARY KEY (`Notification_ID`);
+ALTER TABLE `lecture`
+  ADD PRIMARY KEY (`lec_id`);
+
+--
+-- Indexes for table `lecture_record`
+--
+ALTER TABLE `lecture_record`
+  ADD PRIMARY KEY (`lec_id`);
 
 --
 -- Indexes for table `slot`
@@ -256,19 +298,19 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `Booking_ID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Booking_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+
+--
+-- AUTO_INCREMENT for table `lab`
+--
+ALTER TABLE `lab`
+  MODIFY `Lab_ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `lab_record`
 --
 ALTER TABLE `lab_record`
   MODIFY `lab_no` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `notifications`
---
-ALTER TABLE `notifications`
-  MODIFY `Notification_ID` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `slot`
@@ -280,7 +322,7 @@ ALTER TABLE `slot`
 -- AUTO_INCREMENT for table `student`
 --
 ALTER TABLE `student`
-  MODIFY `stud_no` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=217409951;
+  MODIFY `stud_no` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=218418903;
 
 --
 -- AUTO_INCREMENT for table `student_record`
