@@ -36,13 +36,11 @@ var admin = require('./routes/admin');
 
 app.get('/j',function(request,response){
 
-     let dt = JSON.stringify(new Date)
-     let date = dt.substr(1,10)
-     let time =dt.substr(12,2);
+  let dt = JSON.stringify(new Date)
+  let date = dt.substr(1,10)
+  let time = dt.substr(12,2);
     
-    response.send(dt)
-    
-    
+   response.send(dt) 
 })
      
  
@@ -75,7 +73,7 @@ app.post('/lab_Schedule',admin.lab_Schedule);
 app.post('/notification',admin.notification);
 app.get('/studentsList',admin.studentsList);
 app.get('/LecturersList',admin.LecturersList);
-app.delete('/DeleteStudent',admin.DeleteStudent);
+app.post('/DeleteStudent',admin.DeleteStudent);
 app.delete('/DeleteLecturer',admin.DeleteLecturer);
 app.get('/bookings',admin.bookings);
 app.get('/get_notification',admin.get_notification); 

@@ -195,6 +195,9 @@ exports.LecturersList =async function(request, response) {
 
 exports.DeleteStudent =async function(request, response) { 
 
+ 
+  
+  
   var stuNumber = request.body.stuNumber;
   console.log(stuNumber);
 
