@@ -64,10 +64,12 @@ app.post('/adminLogin', login.adminLogin);
 app.post('/bookingStatus',booking.status);
 app.post('/Lec_registration',registration.Lec_register)
 app.post('/cancelBooking',booking.cancelBooking)
+app.post('/lec_cancelBooking',booking.lec_cancelBooking)
 app.get('/bookingStatus',booking.status);
 app.post('/lec_login',login.lec_login);
 app.post('/Lec_registration',registration.Lec_register)
 app.post('/updatePassword',profile.updatePassword);
+app.post('/lec_updatePassword',profile.lec_updatePassword);
 app.post('/profile',profile.profileDetails);
 app.post('/lab_Schedule',admin.lab_Schedule);
 app.post('/notification',admin.notification);

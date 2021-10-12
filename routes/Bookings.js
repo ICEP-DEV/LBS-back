@@ -219,7 +219,7 @@ exports.lectureLabs =async function(request, response)
   let time = dt.substr(12,2);
 
   let currentTime = time;
-  var user = "lecture"
+  var user = "lecturer"
   
 
   connection.query('SELECT * FROM lab WHERE Lab_Date = ? AND users =?',[date,user], function(error, results, fields)  
@@ -623,21 +623,21 @@ exports.labBooking=async function(request, response)
 exports.lecLabBooking=async function(request, response) 
 {
     
-    var stuNumber = request.body.stuNumber; //lecture number
+    var lecNumber = request.body.lec_id; //lecture number
     var labAndSlot = request.body.labAndSlot;
     let dt = JSON.stringify(new Date)
     let date = dt.substr(1,10)
     let email = request.body.email;
     
-    console.log(stuNumber)
+    console.log(lecNumber)
     console.log(labAndSlot);
 
 
-    if(stuNumber && labAndSlot)
+    if(lecNumber && labAndSlot)
     {
         var labName = labAndSlot.substr(0,6);
         var slot = labAndSlot.substr(16,1);
-        var text = stuNumber;
+        var text = lecNumber;
         let time = ""
        
         //else if statement for slot time
@@ -668,7 +668,7 @@ exports.lecLabBooking=async function(request, response)
 
        
 
-        connection.query('SELECT * FROM booking WHERE Lab_Slot =? AND Lab_Name =? AND Stud_ID =? AND date =?',[slot,labName,stuNumber,date], function (error, results, fields)
+        connection.query('SELECT * FROM booking WHERE Lab_Slot =? AND Lab_Name =? AND Stud_ID =? AND date =?',[slot,labName,lecNumber,date], function (error, results, fields)
         {
                 if(results.length > 0)
                 {
@@ -682,17 +682,17 @@ exports.lecLabBooking=async function(request, response)
 
                         "Lab_Name":labName,
                         "Lab_Slot":slot,
-                        "Stud_ID":request.body.stuNumber,          
+                        "Stud_ID":request.body.lec_id,          
                         "date":date,
                
                     } ;
 
-                    connection.query('SELECT Lab_Slot from booking where Lab_Slot =? AND Stud_ID = ? AND date =?',[slot,stuNumber,date], function (error, results, fields) {
+                    connection.query('SELECT Lab_Slot from booking where Lab_Slot =? AND Stud_ID = ? AND date =?',[slot,lecNumber,date], function (error, results, fields) {
                     
                     if(results.length == 0){
 
 
-                      connection.query('SELECT * FROM  booking  WHERE Num_Bookings > 2 AND Stud_ID =? AND date = ?',[stuNumber,date],function (error, results, fields){
+                      connection.query('SELECT * FROM  booking  WHERE Num_Bookings > 2 AND Stud_ID =? AND date = ?',[lecNumber,date],function (error, results, fields){
 
                         if(results.length > 0){
                                         
@@ -709,7 +709,7 @@ exports.lecLabBooking=async function(request, response)
                             }else
                             {
                             
-                              connection.query('UPDATE booking SET Stud_ID = ?,Num_Bookings = Num_Bookings + 1 WHERE Stud_ID =?', [stuNumber,stuNumber],function (error, results, fields){
+                              connection.query('UPDATE booking SET Stud_ID = ?,Num_Bookings = Num_Bookings + 1 WHERE Stud_ID =?', [lecNumber,lecNumber],function (error, results, fields){
                   
                                 connection.query('UPDATE lab SET Lab_availability =  Lab_Capacity + 1  WHERE Lab_Slot =? AND Lab_Name =?',[slot,labName], function(error, results, fields){ //updates and makes a booking
       
@@ -720,7 +720,7 @@ exports.lecLabBooking=async function(request, response)
                                   else{
                                   
                                     //sql statement for getting the unique booking ID of a student
-                                    connection.query('SELECT Booking_ID  FROM  booking WHERE Stud_ID =? AND Lab_Name =? AND Lab_Slot =? AND date=?',[stuNumber,labName,slot,date],function (error, results, fields){
+                                    connection.query('SELECT Booking_ID  FROM  booking WHERE Stud_ID =? AND Lab_Name =? AND Lab_Slot =? AND date=?',[lecNumber,labName,slot,date],function (error, results, fields){
 
                                        if(results.length > 0){
                                      
@@ -772,7 +772,7 @@ exports.lecLabBooking=async function(request, response)
                                        console.log(error)
                                      }else{
                                           //response.send("you have successfully booked for a lab check your tut4life for confirmation");
-                                          console.log('Email sent ' + info.response)
+                                          console.log('Email sent to '+email + info.response)
                                          
                                      }
 
@@ -942,6 +942,145 @@ exports.cancelBooking=async function(request, response) {
 
            //make space available
            connection.query('UPDATE lab SET Lab_availability =  Lab_availability -1   WHERE Lab_Slot =? AND Lab_Name =? AND Lab_Date =?',[slot,labName,date], function(error, results, fields){ //updates and makes a booking
+      
+            if (error) 
+            { 
+                
+              response.send('System currently facing a problem... Please contact the admin '); 
+            }
+            else
+            {
+
+              connection.query('DELETE FROM booking WHERE Booking_ID = ?',[bookingID], function(error, results, fields) {
+                if(error)
+                {
+                  response.send('System currently facing a problem... Please contact the admin');
+                }
+                else
+                {
+                  response.send('booking has been deleted'); 
+                  
+                                    //write a code to send email with that pas string
+                                    var nodemailer = require('nodemailer')
+                                    var transporter = nodemailer.createTransport({
+       
+                                     service:'gmail',
+                                     auth:{
+                                     user:'godfrey555mabena@gmail.com',
+                                     pass:'godfreyzo'
+               
+                               }
+
+
+                                });
+
+                                var mailOptions ={
+
+                                from:'godfrey555mabena@gmail.com',
+                                to:JSON.stringify(stuNumber + '@tut4life.ac.za'),
+                                subject:'No reply :Booking Cancellation',
+                                text: ( 'You Have successfully cancelled your booking ' 
+                                       +'\nLab Name : '+ labName 
+                                       +'\nSlot     : ' + slot
+                                       +'\nTime     : ' + time 
+                                       +'\nDate     : ' + date
+                                       +'\nYour booking ID is : TUTLBSSC' +bookingID
+                                       +'\n\n\n You can now make a booking on a different lab or session')
+
+                                };
+
+
+                                 transporter.sendMail(mailOptions,function(error,info){
+
+                                  if(error){
+                                  console.log(error)
+                                }else{
+                                     //response.send("you have successfully booked for a lab check your tut4life for confirmation");
+                                     console.log('Email sent ' + info.response)
+                                    
+                                }
+
+
+                                })   
+    
+                }//end of else
+            
+              })//end of deleting
+            
+              
+            }
+          })//end of updating
+
+             
+          
+    }
+ 
+
+  })//end of returning results for booking ID
+ 
+  }
+else{
+       response.send('booking ID not entered')
+}
+}
+
+
+//API for lecture cancelling a booking
+
+exports.lec_cancelBooking=async function(request, response) {
+
+   
+ 
+  var bookingID = request.body.bookingID
+  
+       
+ 
+  
+  if(bookingID){
+
+  connection.query('SELECT  * FROM booking WHERE Booking_ID =?' , [bookingID], function (error, results, fields) {
+
+    if(results.length > 0)
+    {
+     
+
+      //code for geting labName and slot and the student number
+           let stringResults = JSON.stringify(results)
+           this.results1 = JSON.parse(stringResults)
+           let labName = this.results1[0].Lab_Name;
+           let slot =this.results1[0].Lab_Slot;
+           let stuNumber = this.results1[0].Stud_ID;
+           let dt = JSON.stringify(new Date);
+           let date = dt.substr(1,10);
+
+           //code for time slot
+           let time = ""
+       
+        //else if statement for slot time
+        if (slot == "A"){
+          time = "08:00 - 11:00"
+
+        }
+        else if(slot == "B"){
+          time = "11:00 - 14:00"
+        }
+        else if(slot == "C"){
+          
+          time = "14:00 - 17:00"
+        }
+        else if(slot == "D")
+        {
+          time = "17:00 - 20:00"
+
+        }
+        else if(slot == "E")
+        {
+          time = "20:00 - 23:00"
+        }
+           console.log(labName +'   '+slot + '  ' + stuNumber + '  ' + date )
+
+           //make space available
+           connection.query('UPDATE lab SET Lab_availability =   0   WHERE Lab_Slot =? AND Lab_Name =? AND Lab_Date =?',[slot,labName,date], function(error, results, fields){ //updates and makes a booking
       
             if (error) 
             { 

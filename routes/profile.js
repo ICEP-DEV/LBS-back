@@ -73,3 +73,61 @@ exports.profileDetails =async function(request, response) {
         }
     });
 }
+
+//lecture update password
+
+exports.lec_updatePassword=async function(request, response) 
+{ 
+    var lecNumber = request.body.lec_id;
+    var password = request.body.password;
+    var newPassword = request.body.newPassword;
+    var confirmPassword = request.body.confirmPassword;
+    
+    console.log(lecNumber);
+    console.log(password);
+    console.log(newPassword);
+    console.log(confirmPassword);
+    
+    
+    if (lecNumber && password && newPassword && confirmPassword )
+    { 
+        connection.query('SELECT password FROM lecture where lec_id= ? And password =?', [lecNumber,password], function(error, results, fields)
+        {
+            if (results.length > 0)
+            {
+            
+                    if(password == newPassword)
+                    {
+                        response.send('The old and new password are the same!');
+                    }
+                    else
+                    {
+                        if(newPassword != confirmPassword)
+                        {
+                            response.send('password does not match!');
+                        }
+                        else
+                        {
+                            connection.query('UPDATE lecture SET password = ? , confirm = ? WHERE lec_id =?',[newPassword,confirmPassword,lecNumber], function(error, results, fields)
+                            { 
+                                if (error)
+                                { 
+                                    response.send('System currently facing a problem... Please contact the admin');
+                                }
+                                else
+                                {  
+                                    response.send('password successfully updated');
+                                }
+                            })
+                        }
+                    }
+            }else{
+                response.send('incorrect old password');
+            }
+        })
+    }
+    else
+    {
+        response.send('Please enter values');	
+    }
+}
