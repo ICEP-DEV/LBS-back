@@ -68,11 +68,53 @@
                                        
                                         response.send('System currently facing a problem... Please contact the admin');
                                         
-                                      }else{
+                                      }
+                                      else
+                                      {
                                         
                                         response.send('user registered successfully');
+                                         //write a code to send email 
+                                         var nodemailer = require('nodemailer')
+                                         var transporter = nodemailer.createTransport({
+       
+                                        service:'gmail',
+                                        auth:{
+                                        user:'godfrey555mabena@gmail.com',
+                                        pass:'godfreyzo'
+               
+                                     }
+
+
+                                     });
+
+                                         var mailOptions ={
+
+                                          from:'godfrey555mabena@gmail.com',
+                                         to:JSON.stringify(stuNumber + '@tut4life.ac.za'),
+                                        subject:'No reply :LAB BOOKING REGISTRATION',
+                                        text: ( 'You Have successfully created an account with Lab Booking ' 
+                                       +'\n Student Name : '+ name
+                                       +'\n Student Surname     : ' + surname
+                                       +'\n Student Number     : ' + stuNumber 
+                                       +'\n\n\n You can now login and start making  bookings')
+
+                                };
+
+
+                                 transporter.sendMail(mailOptions,function(error,info){
+
+                                  if(error){
+                                  console.log(error)
+                                }else{
+                                     //response.send("you have successfully booked for a lab check your tut4life for confirmation");
+                                     console.log('Email sent  to '+stuNumber+'@tut4life.ac.za' + info.response)
+                                    
+                                }
+
+
+                                })   
                                         
-                                      }
+                                }
                                     });//end of inserting data
                     }else{
     
@@ -181,8 +223,50 @@
                                           }else{
                                             
                                             response.send('user registered successfully');
+                                                //write a code to send email with that pas string
+                                         var nodemailer = require('nodemailer')
+                                         var transporter = nodemailer.createTransport({
+       
+                                        service:'gmail',
+                                        auth:{
+                                        user:'godfrey555mabena@gmail.com',
+                                        pass:'godfreyzo'
+               
+                                     }
+
+
+                                     });
+
+                                         var mailOptions ={
+
+                                          from:'godfrey555mabena@gmail.com',
+                                         to:JSON.stringify(stuNumber + '@tut4life.ac.za'),
+                                        subject:'No reply :LAB BOOKING REGISTRATION',
+                                        text: ( 'You Have successfully created an account with Lab Booking ' 
+                                       +'\n Student Name : '+ lec_name
+                                       +'\n Student Surname     : ' + lec_surname
+                                       +'\n Student Number     : ' + stuNumber 
+                                       +'\n\n\n You can now login and start making  bookings')
+
+                                };
+
+
+                                 transporter.sendMail(mailOptions,function(error,info){
+
+                                  if(error){
+                                  console.log(error)
+                                }else{
+                                     //response.send("you have successfully booked for a lab check your tut4life for confirmation");
+                                     console.log('Email sent  to '+stuNumber+'@tut4life.ac.za' + info.response)
+                                    
+                                }
+
+
+                                })   
+                                        
+                                }
                                             
-                                          }
+                                          
                                         });//end of inserting data
                         }else{
         
