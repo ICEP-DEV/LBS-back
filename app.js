@@ -63,7 +63,7 @@ app.post('/lectureBooking',booking.lecLabBooking)
 app.post('/adminLogin', login.adminLogin);
 app.post('/bookingStatus',booking.status);
 app.post('/Lec_registration',registration.Lec_register)
-app.post('/cancellingBooking',booking.cancelBooking)
+app.post('/cancelBooking',booking.cancelBooking)
 app.get('/bookingStatus',booking.status);
 app.post('/lec_login',login.lec_login);
 app.post('/Lec_registration',registration.Lec_register)

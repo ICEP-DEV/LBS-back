@@ -891,20 +891,28 @@ exports.bookingsNum = async function(request, response) {
 exports.cancelBooking=async function(request, response) {
 
    
-  var stuNumber = request.body.stuNumber;
-  var labAndSlot = request.body.labAndSlot;
+  //var stuNumber = request.body.stuNumber;
+  //var labAndSlot = request.body.labAndSlot;
+  var bookingID = request.body.bookingID
   let dt = JSON.stringify(new Date)
   let date = dt.substr(1,10)
   
   
-  console.log(stuNumber)
-  console.log(labAndSlot)
+  console.log(bookingID)
+  //console.log(labAndSlot)
 
 
-  if(stuNumber && labAndSlot)
+  if(Booking_ID)
   {
-      var labName = labAndSlot.substr(0,6);
-      var slot = labAndSlot.substr(16,1);
+    connection.query('SELECT  Lab_Name,Lab_Slot  FROM booking where date=?  AND Lab_Name =? AND Lab_Slot =? AND Stud_ID' , [date,labName,slot,stuNumber], function (error, results, fields) {
+
+
+
+    })  
+
+
+    var labName = labAndSlot.substr(0,6);
+    var slot = labAndSlot.substr(16,1);
    
 
 
