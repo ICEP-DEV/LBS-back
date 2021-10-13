@@ -76,9 +76,11 @@ app.post('/notification',admin.notification);
 app.get('/studentsList',admin.studentsList);
 app.get('/LecturersList',admin.LecturersList);
 app.post('/DeleteStudent',admin.DeleteStudent);
+app.get('/view-schedule',admin.viewSchedule)
 app.delete('/DeleteLecturer',admin.DeleteLecturer);
 app.get('/bookings',admin.bookings);
 app.get('/get_notification',admin.get_notification); 
 app.post('/bookingsNum',booking.bookingsNum);
+
 
 //app.delete('/delete_notification',admin.get_notification); 

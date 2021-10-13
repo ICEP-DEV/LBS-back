@@ -345,3 +345,28 @@ exports.get_notification = async function(request, response){
   }
 
 }
+
+
+//APi for viewing Schedule
+exports.viewSchedule = async function(request, response){
+
+   
+  connection.query('SELECT * FROM lab ', function (error, results, fields) {
+    
+    if (error) {
+
+      response.send('No Schedule Published'); 
+
+    }else{
+    
+      response.send(results);
+     
+    
+    }
+  })
+   
+
+
+
+
+}
