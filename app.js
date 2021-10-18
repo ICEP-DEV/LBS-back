@@ -81,6 +81,7 @@ app.get('/view-schedule',admin.viewSchedule)
 app.delete('/DeleteLecturer',admin.DeleteLecturer);
 app.get('/bookings',admin.bookings);
 app.get('/get_notification',admin.get_notification); 
+app.post('/updateLabStatus',admin.updateLabStatus)
 app.post('/bookingsNum',booking.bookingsNum);
 
 

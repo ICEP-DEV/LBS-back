@@ -17,6 +17,7 @@ exports.lab_Schedule =async function(request, response) {
     let time = " "
     var userlab =request.body.userlab;
     let desc = ""
+    let status = "Confirmed"
 
       //else if statement for slot time
       if (slot == "A"){
@@ -64,6 +65,34 @@ exports.lab_Schedule =async function(request, response) {
         desc = "business analysis lab"
 
       }
+      else if(labName == "10-L41")
+      {
+       
+
+        desc = "business analysis lab"
+
+      }
+      else if(labName == "10-G06")
+      {
+       
+
+        desc = "Software Development"
+
+      }
+      else if(labName == "10-G10")
+      {
+       
+
+        desc = "First year"
+
+      }
+      else if(labName == "10-G48")
+      {
+       
+
+        desc = "Multi Media"
+
+      }
      
     
     
@@ -89,6 +118,7 @@ exports.lab_Schedule =async function(request, response) {
                 "time":time,
                 "users":userlab,
                 "descr":desc,
+                "status":status,
        
             } 
             connection.query('INSERT INTO lab SET ?',[lab_records], function (error, results, fields) {
@@ -124,6 +154,71 @@ exports.lab_Schedule =async function(request, response) {
 
 }
 
+//This Api will update the lab status if its confirmed or cancelled for user availability
+
+
+exports.updateLabStatus =async function(request, response) {
+
+  let lab = request.body.Lab_ID;
+  let sta = "Cancelled"  
+  connection.query('UPDATE lab SET status =? WHERE Lab_ID =?',[sta,lab], function(error, results, fields){ //updates and makes a booking
+      
+    if (error) 
+    { 
+        response.send('System currently facing a problem... Please contact the admin');
+    }
+    else{
+
+       
+       
+       // notify  users that made that booking that it is cancelled
+       connection.query('Select * From lab Where Lab_ID =?',[lab], function(error, results, fields)
+       {
+
+        //getting lab details
+        if(results.length > 0)
+        {
+         
+    
+          //code for geting labName and slot and the student number
+               let stringResults = JSON.stringify(results)
+               this.results1 = JSON.parse(stringResults)
+               let labName = this.results1[0].Lab_Name;
+               let slot =this.results1[0].Lab_Slot;
+               let dt = JSON.stringify(new Date);
+               let date = dt.substr(1,10);
+               let message = "Dear Users Please Note That Lab " + labName+" Slot " + slot+ " on this date "+ date+" is cancelled";
+
+          //send notification to let user that made that booking Know that it is cancelled
+
+         
+             
+            var new_lecture={
+    
+              "Notification":message,
+              "Notification_Date":date,
+ 
+     
+             } 
+          connection.query('INSERT INTO notifications SET ?',[new_lecture], function (error, results, fields) {
+            if (error) {}
+            else
+            {
+              response.send("Schedule Cancelled")
+            }
+    
+            })
+
+
+          }//end of if
+
+          })//end of getting lab details
+
+       }//end of else for updating
+  }) //end of updating
+
+
+}
 
 //this APi will reserve an available lab for other purpose
 
@@ -292,6 +387,8 @@ exports.notification = async function (request, response)
           }else{
             
             response.send('Notification successfully sent on this date: ' + date );
+            //insert to notification record
+            connection.query('INSERT INTO notification_record SET ?',[notification_records], function (error, results, fields) {})
             
           }
         });//end of inserting data
