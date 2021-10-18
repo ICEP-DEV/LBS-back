@@ -73,6 +73,7 @@ app.post('/lec_updatePassword',profile.lec_updatePassword);
 app.post('/profile',profile.profileDetails);
 app.post('/lab_Schedule',admin.lab_Schedule);
 app.post('/notification',admin.notification);
+app.post('/DeleteNotification',admin.deleteNotification);
 app.get('/studentsList',admin.studentsList);
 app.get('/LecturersList',admin.LecturersList);
 app.post('/DeleteStudent',admin.DeleteStudent);

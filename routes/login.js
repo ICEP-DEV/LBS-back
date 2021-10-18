@@ -37,7 +37,7 @@ exports.login =async function(request, response) {
 
    }//end of if statements that checks that values are entered
    else{
-    response.send('Please enter values');	
+    response.send('Enter Values');	
     }
 
 
@@ -88,7 +88,7 @@ exports.adminLogin =async function(request, response) {
   
     }//end of if statements that checks that values are entered
     else{
-     response.send('Please enter values');	
+     response.send('Enter Values');	
      }
   
     }
@@ -136,7 +136,7 @@ exports.adminLogin =async function(request, response) {
       
         }//end of if statements that checks that values are entered
         else{
-         response.send('Please enter values');	
+         response.send('Enter Values');	
          }
       
         }

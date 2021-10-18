@@ -269,7 +269,7 @@ exports.notification = async function (request, response)
 
     if(results.length > 0){
 
-        response.send('You have already sent sent this message' );
+        response.send('Notification sent successfully' );
        }
        else
        {
@@ -323,12 +323,10 @@ else{
 
 exports.get_notification = async function(request, response){
 
+
   
-  var notif_Date = request.body.Notification_Date;
   
-  if(notif_Date ){
-  
-    connection.query('SELECT * FROM notifications WHERE Notification_Date  =?' , [notif_Date], function (error, results, fields) {
+    connection.query('SELECT * FROM notifications ', function (error, results, fields) {
       if (results.length > 0) {
 
         response.send(results);
@@ -336,13 +334,13 @@ exports.get_notification = async function(request, response){
       }else{
       
      
-       response.send('No results found for this date: ' + notif_Date); 
+       response.send('No results found '); 
       
       }
     })
   
   
-  }
+ 
 
 }
 
@@ -368,5 +366,27 @@ exports.viewSchedule = async function(request, response){
 
 
 
+
+}
+
+
+
+
+
+exports.deleteNotification =async function(request, response) { 
+
+  let notID = request.body.Notification_ID;
+  console.log(notID);
+
+  connection.query('DELETE FROM notifications WHERE Notification_ID = ?',[notID], function(error, results, fields) {
+      if(error)
+      {
+        response.send('System currently facing a problem... Please contact the admin');
+      }
+      else{
+        response.send('Notification successfully deleted');
+      }
+
+  })
 
 }
