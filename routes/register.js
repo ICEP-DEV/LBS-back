@@ -240,12 +240,12 @@
                                          var mailOptions ={
 
                                           from:'godfrey555mabena@gmail.com',
-                                         to:JSON.stringify(stuNumber + '@tut4life.ac.za'),
+                                         to:JSON.stringify(lec_id + '@tut4life.ac.za'),
                                         subject:'No reply :LAB BOOKING REGISTRATION',
                                         text: ( 'You Have successfully created an account with Lab Booking ' 
                                        +'\n Student Name : '+ lec_name
                                        +'\n Student Surname     : ' + lec_surname
-                                       +'\n Student Number     : ' + stuNumber 
+                                       +'\n Student Number     : ' + lec_id 
                                        +'\n\n\n You can now login and start making  bookings')
 
                                 };
@@ -257,7 +257,7 @@
                                   console.log(error)
                                 }else{
                                      //response.send("you have successfully booked for a lab check your tut4life for confirmation");
-                                     console.log('Email sent  to '+stuNumber+'@tut4life.ac.za' + info.response)
+                                     console.log('Email sent  to '+lec_id+'@tut4life.ac.za' + info.response)
                                     
                                 }
 
