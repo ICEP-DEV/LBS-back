@@ -487,11 +487,11 @@ exports.labBooking=async function(request, response)
                     if(results.length == 0){
 
 
-                      connection.query('SELECT * FROM  booking  WHERE Num_Bookings > 2 AND User_ID =? AND date = ?',[stuNumber,date],function (error, results, fields){
+                      connection.query('SELECT * FROM  booking  WHERE Num_Bookings >= 2 AND User_ID =? AND date = ?',[stuNumber,date],function (error, results, fields){
 
                         if(results.length > 0){
                                         
-                          response.send('you can not make more than two bookings per day');
+                          response.send('you cannot make more than two bookings per day');
                           
                          }else{
                         
@@ -695,11 +695,11 @@ exports.lecLabBooking=async function(request, response)
                     if(results.length == 0){
 
 
-                      connection.query('SELECT * FROM  booking  WHERE Num_Bookings > 2 AND User_ID= ? AND date = ?',[lecNumber,date],function (error, results, fields){
+                      connection.query('SELECT * FROM  booking  WHERE Num_Bookings >= 2 AND User_ID= ? AND date = ?',[lecNumber,date],function (error, results, fields){
 
                         if(results.length > 0){
                                         
-                          response.send('you can not make more than 4 bookings per day');
+                          response.send('you cannot make more than two bookings per day');
                           
                          }else{
                         

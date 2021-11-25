@@ -29,6 +29,7 @@ var forgotPassword = require('./routes/forgot_Password');
 var booking = require('./routes/Bookings');
 var profile = require('./routes/profile');
 var admin = require('./routes/admin');
+var lecturerPassword = require('./routes/forgot_Password');
 
 
 
@@ -51,23 +52,24 @@ app.listen(PORT,function(){
     console.log('server running on localhost:' + PORT);
 })
 
-//routers for login and registration
+//routers for all the APIs
 app.post('/registration',registration.register);
 app.get('/login',login.login);
 app.post('/login',login.login);
 app.post('/forgotPassword',forgotPassword.forgotPassword);
+app.post('/lecturerPassword',lecturerPassword.lecturerPassword);
 app.get('/availableLabs',booking.available);
-app.get('/lectureAvailLabs',booking.lectureLabs)
+app.get('/lectureAvailLabs',booking.lectureLabs);
 app.post('/book',booking.labBooking);
-app.post('/lectureBooking',booking.lecLabBooking)
+app.post('/lectureBooking',booking.lecLabBooking);
 app.post('/adminLogin', login.adminLogin);
 app.post('/bookingStatus',booking.status);
-app.post('/Lec_registration',registration.Lec_register)
+app.post('/Lec_registration',registration.Lec_register);
 app.post('/cancelBooking',booking.cancelBooking)
-app.post('/lec_cancelBooking',booking.lec_cancelBooking)
+app.post('/lec_cancelBooking',booking.lec_cancelBooking);
 app.get('/bookingStatus',booking.status);
 app.post('/lec_login',login.lec_login);
-app.post('/Lec_registration',registration.Lec_register)
+app.post('/Lec_registration',registration.Lec_register);
 app.post('/updatePassword',profile.updatePassword);
 app.post('/lec_updatePassword',profile.lec_updatePassword);
 app.post('/profile',profile.profileDetails);
@@ -81,7 +83,7 @@ app.get('/view-schedule',admin.viewSchedule)
 app.delete('/DeleteLecturer',admin.DeleteLecturer);
 app.get('/bookings',admin.bookings);
 app.get('/get_notification',admin.get_notification); 
-app.post('/updateLabStatus',admin.updateLabStatus)
+app.post('/updateLabStatus',admin.updateLabStatus);
 app.post('/bookingsNum',booking.bookingsNum);
 
 
