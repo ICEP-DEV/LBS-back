@@ -838,7 +838,7 @@ exports.status=async function(request, response) {
     let date = dt.substr(1,10)
 
 
-    console.log(stuNumber)
+    
 
     connection.query('SELECT * FROM booking Where User_ID =? AND date=?',[stuNumber,date], function (error, results, fields) {
         if (error) {
@@ -899,11 +899,11 @@ exports.cancelBooking=async function(request, response) {
   var bookingID = request.body.bookingID
   
        
- 
+  console.log(bookingID)
   
   if(bookingID){
 
-  connection.query('SELECT  * FROM booking WHERE Booking_ID =?' , [bookingID], function (error, results, fields) {
+  connection.query('SELECT  * FROM booking WHERE User_ID =?' , [bookingID], function (error, results, fields) {
 
     if(results.length > 0)
     {
@@ -914,7 +914,7 @@ exports.cancelBooking=async function(request, response) {
            this.results1 = JSON.parse(stringResults)
            let labName = this.results1[0].Lab_Name;
            let slot =this.results1[0].Lab_Slot;
-           let stuNumber = this.results1[0].Stud_ID;
+           let stuNumber = this.results1[0].User_ID;
            let dt = JSON.stringify(new Date);
            let date = dt.substr(1,10);
 
@@ -961,7 +961,7 @@ exports.cancelBooking=async function(request, response) {
                 "Lab_Slot":slot,
                 "User_ID":stuNumber,          
                 "date":date,
-                "Booking_ID":bookingID,
+                "Booking_ID":stuNumber,
        
             } ;
             
@@ -969,7 +969,7 @@ exports.cancelBooking=async function(request, response) {
 
 
 
-              connection.query('DELETE FROM booking WHERE Booking_ID = ?',[bookingID], function(error, results, fields) {
+              connection.query('DELETE FROM booking WHERE User_ID = ?',[stuNumber], function(error, results, fields) {
                 if(error)
                 {
                   response.send('System currently facing a problem... Please contact the admin');
@@ -1052,11 +1052,11 @@ exports.lec_cancelBooking=async function(request, response) {
   var bookingID = request.body.bookingID
   
        
- 
+ console.log(bookingID)
   
   if(bookingID){
 
-  connection.query('SELECT  * FROM booking WHERE Booking_ID =?' , [bookingID], function (error, results, fields) {
+  connection.query('SELECT  * FROM booking WHERE User_ID =?' , [bookingID], function (error, results, fields) {
 
     if(results.length > 0)
     {
@@ -1067,7 +1067,7 @@ exports.lec_cancelBooking=async function(request, response) {
            this.results1 = JSON.parse(stringResults)
            let labName = this.results1[0].Lab_Name;
            let slot =this.results1[0].Lab_Slot;
-           let lectureID = this.results1[0].Stud_ID;
+           let lectureID = this.results1[0].User_ID;
            let dt = JSON.stringify(new Date);
            let date = dt.substr(1,10);
 
@@ -1115,7 +1115,7 @@ exports.lec_cancelBooking=async function(request, response) {
                 "Lab_Slot":slot,
                 "User_ID":lectureID,          
                 "date":date,
-                "Booking_ID":bookingID,
+                "Booking_ID":lectureID,
        
             } ;
             
@@ -1123,7 +1123,7 @@ exports.lec_cancelBooking=async function(request, response) {
 
 
 
-              connection.query('DELETE FROM booking WHERE Booking_ID = ?',[bookingID], function(error, results, fields) {
+              connection.query('DELETE FROM booking WHERE User_ID = ?',[lectureID], function(error, results, fields) {
                 if(error)
                 {
                   response.send('System currently facing a problem... Please contact the admin');
