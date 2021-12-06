@@ -976,7 +976,7 @@ exports.cancelBooking=async function(request, response) {
                 }
                 else
                 {
-                  response.send('booking has been deleted'); 
+                  response.send('booking has been cancelled'); 
                   
                                     //write a code to send email with that pas string
                                     var nodemailer = require('nodemailer')
